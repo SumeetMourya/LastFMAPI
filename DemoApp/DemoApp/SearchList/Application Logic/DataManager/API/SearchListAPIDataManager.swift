@@ -7,9 +7,14 @@
 //
 
 import Foundation
+import Reachability
+import Alamofire
+
 
 class SearchListAPIDataManager: SearchListAPIDataManagerInputProtocol {
  
+    let reachability = Reachability()
+
     init() {}
     
     
@@ -17,29 +22,33 @@ class SearchListAPIDataManager: SearchListAPIDataManagerInputProtocol {
 
     func loadDataForURL(url: String, onSuccess success: @escaping (_ data: GetSearchData, _ apiStatusCode: ApiStatusType) -> Void, onFailure failure: @escaping (_ error: Error?, _ apiStatusCode: ApiStatusType) -> Void) {
         
-        let apisServiceStart = APIService()
-        
-        apisServiceStart.loadDataWith(urlString: url, onSuccess: { (parseData, succeedCode) in
+        if (reachability?.connection == .cellular || reachability?.connection == .wifi) {
             
-            let responseStrInISOLatin = String(data: parseData, encoding: String.Encoding.isoLatin1)
-            guard let modifiedDataInUTF8Format = responseStrInISOLatin?.data(using: String.Encoding.utf8) else {
-                print("could not convert data to UTF-8 format")
-                
+            guard let urlStringWithEncoding = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
                 failure(nil, ApiStatusType.apiEncodingIssue)
                 return
             }
-            
-            do {
-                let artistSearchData = try JSONDecoder().decode(GetSearchData.self, from: modifiedDataInUTF8Format)
+
+            Alamofire.request(urlStringWithEncoding).response { response in
                 
-                success(artistSearchData, ApiStatusType.apiSucceed)
+                guard let data = response.data else {
+                    failure(nil, ApiStatusType.apiEncodingIssue)
+                    return
+                }
                 
-            } catch let error as NSError {
-                failure(error, ApiStatusType.apiParsingIssue)
+                do {
+                    let decoder = JSONDecoder()
+                    let artistSearchData = try decoder.decode(GetSearchData.self, from: data)
+                    success(artistSearchData, ApiStatusType.apiSucceed)
+                    
+                } catch let error {
+                    print(error)
+                    failure(error, ApiStatusType.apiParsingIssue)
+                }
             }
             
-        }) { (error, errorData) in
-            failure(error, errorData)
+        } else {
+            failure(nil, ApiStatusType.netWorkIssue)
         }
         
     }

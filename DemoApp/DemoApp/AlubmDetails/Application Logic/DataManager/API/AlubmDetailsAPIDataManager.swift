@@ -7,9 +7,13 @@
 //
 
 import Foundation
+import Alamofire
+import Reachability
 
 class AlubmDetailsAPIDataManager: AlubmDetailsAPIDataManagerInputProtocol {
     
+    let reachability = Reachability()
+
     init() {}
     
     
@@ -17,29 +21,34 @@ class AlubmDetailsAPIDataManager: AlubmDetailsAPIDataManagerInputProtocol {
     
     func loadDataForURL(url: String, onSuccess success: @escaping (_ data: AlbumInfoItem, _ apiStatusCode: ApiStatusType) -> Void, onFailure failure: @escaping (_ error: Error?, _ apiStatusCode: ApiStatusType) -> Void) {
         
-        let apisServiceStart = APIService()
         
-        apisServiceStart.loadDataWith(urlString: url, onSuccess: { (parseData, succeedCode) in
+        if (reachability?.connection == .cellular || reachability?.connection == .wifi) {
             
-            let responseStrInISOLatin = String(data: parseData, encoding: String.Encoding.isoLatin1)
-            guard let modifiedDataInUTF8Format = responseStrInISOLatin?.data(using: String.Encoding.utf8) else {
-                print("could not convert data to UTF-8 format")
-                
+            guard let urlStringWithEncoding = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
                 failure(nil, ApiStatusType.apiEncodingIssue)
                 return
             }
             
-            do {
-                let albumInformation = try JSONDecoder().decode(AlbumInfoItem.self, from: modifiedDataInUTF8Format)
+            Alamofire.request(urlStringWithEncoding).response { response in
+
+                guard let data = response.data else {
+                    failure(nil, ApiStatusType.apiEncodingIssue)
+                    return
+                }
                 
-                success(albumInformation, ApiStatusType.apiSucceed)
-                
-            } catch let error as NSError {
-                failure(error, ApiStatusType.apiParsingIssue)
+                do {
+                    let decoder = JSONDecoder()
+                    let albumInformationData = try decoder.decode(AlbumInfoItem.self, from: data)
+                    success(albumInformationData, ApiStatusType.apiSucceed)
+                    
+                } catch let error {
+                    print(error)
+                    failure(error, ApiStatusType.apiParsingIssue)
+                }
             }
             
-        }) { (error, errorData) in
-            failure(error, errorData)
+        } else {
+            failure(nil, ApiStatusType.netWorkIssue)
         }
         
     }
