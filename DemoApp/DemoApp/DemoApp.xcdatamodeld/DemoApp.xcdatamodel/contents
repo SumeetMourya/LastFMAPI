@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18A391" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Albums" representedClassName="Albums" syncable="YES" codeGenerationType="class">
+        <attribute name="albumCoverLargeImageURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="albumCoverSmallImageURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="albumListenersCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="albumName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="albumPlayCount" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="artistMBID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="artistName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="artistProfileURL" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Tracks" representedClassName="Albums" syncable="YES" codeGenerationType="class">
+        <attribute name="trackDuration" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="trackName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="trackOrder" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="trackURL" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Albums" positionX="-388.0390625" positionY="43.0703125" width="128" height="163"/>
+        <element name="Tracks" positionX="-36" positionY="63" width="128" height="103"/>
+    </elements>
+</model>

@@ -1,0 +1,33 @@
+PODS:
+  - Alamofire (4.8.1)
+  - AlamofireImage (3.5.0):
+    - Alamofire (~> 4.8)
+  - ESPullToRefresh (2.7)
+  - PKHUD (5.2.1)
+  - ReachabilitySwift (4.3.0)
+
+DEPENDENCIES:
+  - Alamofire
+  - AlamofireImage
+  - ESPullToRefresh
+  - PKHUD
+  - ReachabilitySwift (~> 4.3.0)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - AlamofireImage
+    - ESPullToRefresh
+    - PKHUD
+    - ReachabilitySwift
+
+SPEC CHECKSUMS:
+  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
+  AlamofireImage: 1aea346f4dda2f6c67622fa5a89fcbb80d79cc16
+  ESPullToRefresh: 119e2710b82b75536aab2bbe4883ba119fca35c8
+  PKHUD: 4e6162c4c39ac367c6934e9855c6b4762ee16256
+  ReachabilitySwift: 408477d1b6ed9779dba301953171e017c31241f3
+
+PODFILE CHECKSUM: f345f4eb84cd9761d23747242ff532af57c9c719
+
+COCOAPODS: 1.6.0.beta.2
