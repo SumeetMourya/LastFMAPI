@@ -31,7 +31,7 @@ class AlubmDetailsPresenter: AlubmDetailsPresenterProtocol, AlubmDetailsInteract
         return self.interactor?.getArtistName() ?? ""
     }
 
-
+    
     //MARK: AlubmDetailsInteractorOutputProtocol methods
 
     func errorInLoadingDataWith(error: Error?, errorCode: ApiStatusType) {

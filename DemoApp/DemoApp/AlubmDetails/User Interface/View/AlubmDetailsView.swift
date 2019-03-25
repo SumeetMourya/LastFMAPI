@@ -13,9 +13,11 @@ import AlamofireImage
 class AlubmDetailsViewController: UIViewController, AlubmDetailsViewProtocol {
     
     var presenter: AlubmDetailsPresenterProtocol?
-    var listOfTracks: [AlbumTrackItem] = [AlbumTrackItem]()
+//    var listOfTracks: [AlbumTrackItem] = [AlbumTrackItem]()
+    var albumInformationData: AlbumInfoItem?
     
     @IBOutlet var btnStoreDataToggle: UIButton!
+    @IBOutlet var actionButtonParentView: UIView!
     @IBOutlet var imgAlbumCover: UIImageView!
     @IBOutlet var lblArtistName: UILabel!
     @IBOutlet var lblAlbumName: UILabel!
@@ -47,6 +49,16 @@ class AlubmDetailsViewController: UIViewController, AlubmDetailsViewProtocol {
         self.presenter?.getAlbumInformationWithAPI()
         
         layoutPhoneXBottomHeight.constant = (UIDevice.isHavingCurved ? 34 : 0)
+        
+        actionButtonParentView.layer.shadowColor = UIColor.darkGray.cgColor;
+        actionButtonParentView.layer.masksToBounds = false;
+        actionButtonParentView.layer.shadowOffset = CGSize(width: 0, height: -3)
+        actionButtonParentView.layer.shadowRadius = 3
+        actionButtonParentView.layer.shadowOpacity = 0.25
+        actionButtonParentView.layer.shouldRasterize = true
+        actionButtonParentView.layer.rasterizationScale = UIScreen.main.scale
+
+        btnStoreDataToggle.isHidden = true
 
     }
     
@@ -54,6 +66,25 @@ class AlubmDetailsViewController: UIViewController, AlubmDetailsViewProtocol {
         super.viewDidAppear(animated)
         
     }
+    
+    func updateToggleButton() {
+        
+        if let data = self.albumInformationData {
+            
+            btnStoreDataToggle.isHidden = false
+            if (data.albumSaved) {
+                btnStoreDataToggle.setTitle("Delete", for: .normal)
+                btnStoreDataToggle.backgroundColor = #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)
+            } else {
+                btnStoreDataToggle.setTitle("Add", for: .normal)
+                btnStoreDataToggle.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+            }
+        }
+    }
+    
+    
+    
+    //MARK: AlubmDetailsViewProtocol Methods
     
     func errorInLoadingDataWith(error: Error?, errorCode: ApiStatusType) {
         
@@ -107,16 +138,12 @@ class AlubmDetailsViewController: UIViewController, AlubmDetailsViewProtocol {
             if let urlStringValue = albumInforData.albumCoverLargeImageURL, let urlObject = URL(string: urlStringValue) {
                 self.imgAlbumCover.af_setImage(withURL: urlObject, placeholderImage: UIImage(named: "profileicon")!)
             }
-            self.listOfTracks = albumInforData.tracks
+            self.albumInformationData = albumInforData
             self.tblvTrackList.reloadData()
             self.tracksIsEmpty.isHidden = (albumInforData.tracks.count > 0) ? true : false
             self.layoutTrackListHeight.constant = self.tblvTrackList.contentSize.height
             
-            self.loadViewIfNeeded()
-            
-            UIView.animate(withDuration: 0.25) {
-                self.view.layoutIfNeeded()
-            }
+            self.updateToggleButton()
         }
     }
     
@@ -136,10 +163,10 @@ extension AlubmDetailsViewController: UITableViewDelegate {
         
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
-    
+
 }
 
 // MARK: UITableViewDataSource methods
@@ -147,6 +174,9 @@ extension AlubmDetailsViewController: UITableViewDelegate {
 extension AlubmDetailsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let listOfTracks = self.albumInformationData?.tracks else {
+            return 0
+        }
         return listOfTracks.count
     }
     
@@ -165,7 +195,9 @@ extension AlubmDetailsViewController: UITableViewDataSource {
         cell?.contentView.backgroundColor = UIColor.clear
         cell?.backgroundColor = UIColor.clear
         
-        cell?.bindDataToUI(data: listOfTracks[indexPath.row])
+        if let listOfTracks = self.albumInformationData?.tracks {
+            cell?.bindDataToUI(data: listOfTracks[indexPath.row])
+        }
         
         return cell!
     }

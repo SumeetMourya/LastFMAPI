@@ -438,29 +438,8 @@
                                     <constraint firstAttribute="height" constant="34" id="Jws-hc-jjL"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IKg-xS-Ypm">
-                                <rect key="frame" x="0.0" y="708" width="375" height="70"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M3H-7f-0Tu">
-                                        <rect key="frame" x="15" y="10" width="345" height="50"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                                        <state key="normal" title="Button"/>
-                                        <connections>
-                                            <action selector="actionOnToggleForStoringData:" destination="Wpb-EK-70x" eventType="touchUpInside" id="9eh-Ql-uVJ"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="3Ra-cj-KS8"/>
-                                    <constraint firstAttribute="bottom" secondItem="M3H-7f-0Tu" secondAttribute="bottom" constant="10" id="Eqr-E9-ewh"/>
-                                    <constraint firstAttribute="trailing" secondItem="M3H-7f-0Tu" secondAttribute="trailing" constant="15" id="VHd-tV-UIM"/>
-                                    <constraint firstItem="M3H-7f-0Tu" firstAttribute="leading" secondItem="IKg-xS-Ypm" secondAttribute="leading" constant="15" id="YWa-Kd-1dn"/>
-                                    <constraint firstItem="M3H-7f-0Tu" firstAttribute="top" secondItem="IKg-xS-Ypm" secondAttribute="top" constant="10" id="dDE-tB-EWl"/>
-                                </constraints>
-                            </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uOB-Yv-s72">
-                                <rect key="frame" x="0.0" y="44" width="375" height="664"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="684"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bP1-9J-NMu">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="552.33333333333337"/>
@@ -595,6 +574,28 @@
                                     <constraint firstAttribute="bottom" secondItem="bP1-9J-NMu" secondAttribute="bottom" id="VQP-K0-GeY"/>
                                 </constraints>
                             </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IKg-xS-Ypm">
+                                <rect key="frame" x="0.0" y="728" width="375" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M3H-7f-0Tu">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                        <color key="backgroundColor" red="0.5450980392" green="0.76470588240000004" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                        <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="actionOnToggleForStoringData:" destination="Wpb-EK-70x" eventType="touchUpInside" id="9eh-Ql-uVJ"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="3Ra-cj-KS8"/>
+                                    <constraint firstAttribute="bottom" secondItem="M3H-7f-0Tu" secondAttribute="bottom" id="Eqr-E9-ewh"/>
+                                    <constraint firstAttribute="trailing" secondItem="M3H-7f-0Tu" secondAttribute="trailing" id="VHd-tV-UIM"/>
+                                    <constraint firstItem="M3H-7f-0Tu" firstAttribute="leading" secondItem="IKg-xS-Ypm" secondAttribute="leading" id="YWa-Kd-1dn"/>
+                                    <constraint firstItem="M3H-7f-0Tu" firstAttribute="top" secondItem="IKg-xS-Ypm" secondAttribute="top" id="dDE-tB-EWl"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -618,6 +619,7 @@
                         <viewLayoutGuide key="safeArea" id="rc8-pf-gsn"/>
                     </view>
                     <connections>
+                        <outlet property="actionButtonParentView" destination="IKg-xS-Ypm" id="S65-a2-UXn"/>
                         <outlet property="btnStoreDataToggle" destination="M3H-7f-0Tu" id="vZl-gU-aJF"/>
                         <outlet property="imgAlbumCover" destination="Kq2-O1-7nX" id="1BN-6c-KLY"/>
                         <outlet property="layoutPhoneXBottomHeight" destination="Jws-hc-jjL" id="rq7-7r-aYB"/>
