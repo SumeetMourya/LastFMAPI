@@ -56,7 +56,6 @@ class SearchListWireFrame: SearchListWireFrameProtocol {
         }
 
         previousView.dismiss(animated: true) {
-            print("need to check")
             previousView.presenter?.openSelectedArtistForAlbum(data: selectedArtistData)
         }
         

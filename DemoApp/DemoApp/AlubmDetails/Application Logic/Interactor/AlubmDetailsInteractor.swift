@@ -9,6 +9,7 @@
 import Foundation
 
 class AlubmDetailsInteractor: AlubmDetailsInteractorInputProtocol {
+    
 
     weak var presenter: AlubmDetailsInteractorOutputProtocol?
     var APIDataManager: AlubmDetailsAPIDataManagerInputProtocol?
@@ -32,10 +33,6 @@ class AlubmDetailsInteractor: AlubmDetailsInteractorInputProtocol {
 
     func getAlbumInformationWithAPI() {
         
-//        func showActivityIndicator()
-//        func hideActivityIndicator()
-//        func hideActivityIndicatorWithError(title: String?, subtitle: String?)
-
         self.presenter?.showActivityIndicator()
         
         DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async { [weak self] in
@@ -49,7 +46,12 @@ class AlubmDetailsInteractor: AlubmDetailsInteractorInputProtocol {
             
             wealSelf.APIDataManager?.loadDataForURL(url: requestURLValue, onSuccess: { (albumInfoDataFound, succeedCode) in
                 wealSelf.presenter?.hideActivityIndicator()
-                wealSelf.presenter?.updateAlbumInfoDetailView(albumInforData: albumInfoDataFound)
+                
+                var albumInfoData = albumInfoDataFound
+                if let albumRequestParam = wealSelf.requestParam {
+                    albumInfoData.updateAlbumSaveStatus(value: albumRequestParam.albumStatus)
+                }
+                wealSelf.presenter?.updateAlbumInfoDetailView(albumInforData: albumInfoData)
                                 
             }, onFailure: { (error, errorcodeData) in
                 wealSelf.presenter?.errorInLoadingDataWith(error: error, errorCode: errorcodeData)
@@ -57,6 +59,14 @@ class AlubmDetailsInteractor: AlubmDetailsInteractorInputProtocol {
             })
         }
         
+    }
+
+    func saveAlbumData(albumInforData: AlbumInfoItem) -> Bool {
+        return self.localDatamanager?.saveAlbumData(albumInforData: albumInforData) ?? false
+    }
+    
+    func deleteAlbumData(albumInforData: AlbumInfoItem) -> Bool  {
+        return self.localDatamanager?.deleteAlbumData(albumInforData: albumInforData) ?? false
     }
 
 }

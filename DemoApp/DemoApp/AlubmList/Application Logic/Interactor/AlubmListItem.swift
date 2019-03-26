@@ -12,6 +12,8 @@ struct AlbumInfoRequestParam {
     
     let artistName: String
     let albumName: String
+    let albumStatus: Bool
+    let artistMBID: String
 
 }
 
@@ -38,12 +40,13 @@ struct AlbumImageData: Decodable {
 
 struct SearchAlbumArtistDataItem: Decodable {
     
-    let albumSaved: Bool = false
     let albumName : String?
     let albumPlayCount : Int?
     let albumURL : String?
+    let albumMBID : String?
     var albumCoverSmallImageURL: String? = nil
     var albumCoverLargeImageURL: String? = nil
+    var albumSaved: Bool = false
 
     enum CodingKeys: String, CodingKey {
         
@@ -52,6 +55,7 @@ struct SearchAlbumArtistDataItem: Decodable {
         case url
         case artist
         case image
+        case mbid
     }
     
     let artistName : String?
@@ -70,8 +74,10 @@ struct SearchAlbumArtistDataItem: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         self.albumName = try? container.decode(String.self, forKey: .name)
+        
         self.albumPlayCount = try? container.decode(Int.self, forKey: .playcount)
         self.albumURL = try? container.decode(String.self, forKey: .url)
+        self.albumMBID = try? container.decode(String.self, forKey: .mbid)
 
         if let imagesArrayData = try? container.decode([AlbumImageData].self, forKey: .image) {
             
@@ -88,16 +94,21 @@ struct SearchAlbumArtistDataItem: Decodable {
         
         if let albumArtistData = try? container.nestedContainer(keyedBy: ArtistDataCodingKeys.self, forKey: .artist) {
             
-            artistName = try? albumArtistData.decode(String.self, forKey: SearchAlbumArtistDataItem.ArtistDataCodingKeys.name)
-            artistMBID = try? albumArtistData.decode(String.self, forKey: SearchAlbumArtistDataItem.ArtistDataCodingKeys.mbid)
-            artistProfileURL = try? albumArtistData.decode(String.self, forKey: SearchAlbumArtistDataItem.ArtistDataCodingKeys.url)
+            self.artistName = try? albumArtistData.decode(String.self, forKey: SearchAlbumArtistDataItem.ArtistDataCodingKeys.name)
+            self.artistMBID = try? albumArtistData.decode(String.self, forKey: SearchAlbumArtistDataItem.ArtistDataCodingKeys.mbid)
+            self.artistProfileURL = try? albumArtistData.decode(String.self, forKey: SearchAlbumArtistDataItem.ArtistDataCodingKeys.url)
             
         } else {
-            artistName = nil
-            artistMBID = nil
-            artistProfileURL = nil
+            self.artistName = nil
+            self.artistMBID = nil
+            self.artistProfileURL = nil
         }
     }
+    
+    mutating func updateSaved(status: Bool) {
+        self.albumSaved = status
+    }
+    
 }
 
 struct SearchAlbumPageDataItem: Decodable {
@@ -149,8 +160,9 @@ struct SearchAlbumListData: Decodable {
         let values = try decoder.container(keyedBy: AlbumDataKeys.self)
         if let albumData = try? values.nestedContainer(keyedBy: CodingKeys.self, forKey: .topalbums) {
             if let listOfAlbums = try? albumData.decode([SearchAlbumArtistDataItem].self, forKey: .album) {
-                listOfArtistAlbum = listOfAlbums
+                listOfArtistAlbum = listOfAlbums.filter({ $0.albumName !=  "(null)"})
             }
+            
             pageObject = try? albumData.decode(SearchAlbumPageDataItem.self, forKey: .attr)
         } else {
             listOfArtistAlbum = [SearchAlbumArtistDataItem]()
@@ -167,6 +179,19 @@ struct SearchAlbumListData: Decodable {
             self.listOfArtistAlbum.append(listOfAlbums)
         }
     }
-    
+
+    mutating func appendDataStatus(listOfAlbums: [SearchAlbumArtistDataItem]) {
+        self.listOfArtistAlbum = listOfAlbums
+    }
+
+    mutating func appendDataStatus(indexOfAlbum: Int) {
+        
+        var valueOfAlbum = self.listOfArtistAlbum[indexOfAlbum]
+        let statusValue = !valueOfAlbum.albumSaved
+        valueOfAlbum.updateSaved(status: statusValue)
+        self.listOfArtistAlbum.remove(at: indexOfAlbum)
+        self.listOfArtistAlbum.insert(valueOfAlbum, at: indexOfAlbum)
+    }
+
 }
 

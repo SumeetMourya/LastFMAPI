@@ -42,14 +42,14 @@ class AlbumCell: BaseCollectionCell {
         } else {
             nameOfArtist.text = ""
         }
-        nameOfArtist.text = ""
 
-        
         if let urlStringValue = data.albumCoverLargeImageURL, let urlObject = URL(string: urlStringValue) {
-            coverImageOfAlbum.af_setImage(withURL: urlObject, placeholderImage: UIImage(named: "profileicon")!)
+            coverImageOfAlbum.af_setImage(withURL: urlObject, placeholderImage: UIImage(named: "albumPlaceHolder")!)
+        } else {
+            coverImageOfAlbum.image = UIImage(named: "albumPlaceHolder")
         }
         
-        addedIcon.isHidden = data.albumSaved
+        addedIcon.isHidden = !data.albumSaved
     }
 
 }

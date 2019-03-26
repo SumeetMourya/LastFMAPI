@@ -14,7 +14,7 @@ class SavedAlbumListWireFrame: SavedAlbumListWireFrameProtocol {
     class func presentSavedAlbumListModule(fromView: AnyObject) {
 
         // Generating module components
-        guard let view: SavedAlbumListViewProtocol = UIStoryboard(name:"Main",bundle: Bundle.main).instantiateViewController(withIdentifier: "SavedAlbumListViewControllerID") as? SavedAlbumListViewController else {
+        guard let view: SavedAlbumListViewProtocol & LoaderView = UIStoryboard(name:"Main",bundle: Bundle.main).instantiateViewController(withIdentifier: "SavedAlbumListViewControllerID") as? SavedAlbumListViewController else {
             return
         }
         
@@ -26,7 +26,7 @@ class SavedAlbumListWireFrame: SavedAlbumListWireFrameProtocol {
         let presenter: SavedAlbumListPresenterProtocol & SavedAlbumListInteractorOutputProtocol = SavedAlbumListPresenter()
         let interactor: SavedAlbumListInteractorInputProtocol = SavedAlbumListInteractor()
         let APIDataManager: SavedAlbumListAPIDataManagerInputProtocol = SavedAlbumListAPIDataManager()
-        let localDataManager: SavedAlbumListLocalDataManagerInputProtocol = SavedAlbumListLocalDataManager()
+        let localDataManager: SavedAlbumListLocalDataManagerInputProtocol = SavedAlbumListLocalDataManager(coreDataManager: CoreDataManager.sharedDatabaseManager)
         let wireFrame: SavedAlbumListWireFrameProtocol = SavedAlbumListWireFrame()
 
         // Connecting
@@ -44,18 +44,7 @@ class SavedAlbumListWireFrame: SavedAlbumListWireFrameProtocol {
     }
     
     func goToSearchForAlbums(fromView view: AnyObject, selectedArtistData: SearchArtistDataItem) {
-       
         AlubmListWireFrame.presentAlubmListModule(fromView: view, selectedArtist: selectedArtistData)
-
-//        guard let previousView = view as? UIViewController else {
-//            return
-//        }
-//
-//        previousView.dismiss(animated: true) {
-//            print("need to check")
-//
-//            AlubmListWireFrame.presentAlubmListModule(fromView: view, selectedArtist: selectedArtistData)
-//        }
     }
     
 }

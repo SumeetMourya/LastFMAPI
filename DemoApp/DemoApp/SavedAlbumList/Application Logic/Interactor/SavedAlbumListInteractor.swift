@@ -9,10 +9,22 @@
 import Foundation
 
 class SavedAlbumListInteractor: SavedAlbumListInteractorInputProtocol {
+    
 
     weak var presenter: SavedAlbumListInteractorOutputProtocol?
     var APIDataManager: SavedAlbumListAPIDataManagerInputProtocol?
     var localDatamanager: SavedAlbumListLocalDataManagerInputProtocol?
 
-    init() {}
+    init() {    }
+
+
+    func getSavedAlbum() {
+        self.presenter?.showActivityIndicator()
+        guard let listOfAlbums = self.localDatamanager?.getSavedAlbum() else {
+            return
+        }
+        self.presenter?.hideActivityIndicator()
+        self.presenter?.showSavedAlbum(listOfAlbums: listOfAlbums)
+    }
+
 }

@@ -10,19 +10,37 @@ import Foundation
 
 class AlubmListInteractor: AlubmListInteractorInputProtocol {
 
-    
     weak var presenter: AlubmListInteractorOutputProtocol?
     var APIDataManager: AlubmListAPIDataManagerInputProtocol?
     var localDatamanager: AlubmListLocalDataManagerInputProtocol?
+    var selectedAlbumValue: Int = -1
 
     private let pageSize: Int = 25
     private var searchAlbumDataObject: SearchAlbumListData?
-
     private var selectedArtistData: SearchArtistDataItem
     
     init(artistData: SearchArtistDataItem) {
         self.selectedArtistData = artistData
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(getRefreshData),
+                                               name: CoreDataManager.AlbumStoringModifiedNotification,
+                                               object: nil)
+        
     }
+    
+    @objc private func getRefreshData(notification: Notification) {
+        
+        DispatchQueue.main.async() {
+            
+            guard var searchResultAlbumData = self.searchAlbumDataObject, (self.selectedAlbumValue != -1) else {
+                return
+            }
+            searchResultAlbumData.appendDataStatus(indexOfAlbum: self.selectedAlbumValue)
+            self.searchAlbumDataObject = searchResultAlbumData
+            self.presenter?.updateAlbumSearchList(searchAlbumData: searchResultAlbumData.listOfArtistAlbum, needToUpdate: true, needToShowEmpty: false)
+        }
+    }
+    
     
     //MARK: AlubmListInteractorInputProtocol Methods
         
@@ -42,6 +60,11 @@ class AlubmListInteractor: AlubmListInteractorInputProtocol {
                 return
             }
             
+            var storedAlbumData = [Albums]()
+            if let locatDataManager = wealSelf.localDatamanager {
+                storedAlbumData = locatDataManager.getSavedAlbum(for: artistName)
+            }
+            
             var requestURLValue = API.urlSearchAlbumForArtistRequest(artistName: artistName, pageIndex: 1, pageLimit: wealSelf.pageSize)
                         
             if let data = wealSelf.searchAlbumDataObject, let pageObjectData = data.pageObject, let currentLoadedPageIndex = Int(pageObjectData.currentPageIndex ?? "0"), let totalNumberOfResults = Int(pageObjectData.totalNumberOfItems ?? "0"), let itemsParPage = Int(pageObjectData.perPageItem ?? "0") {
@@ -55,7 +78,19 @@ class AlubmListInteractor: AlubmListInteractorInputProtocol {
             }
             
             
-            wealSelf.APIDataManager?.loadDataForURL(url: requestURLValue, onSuccess: { (searchAlbumData, succeedCode) in
+            wealSelf.APIDataManager?.loadDataForURL(url: requestURLValue, onSuccess: { (searchAlbumDataFound, succeedCode) in
+                
+                var searchAlbumData = searchAlbumDataFound
+               
+                if storedAlbumData.count > 0 {
+                    
+                    for index in 0..<searchAlbumData.listOfArtistAlbum.count {
+                        if (wealSelf.getAlbumSaveOrNot(albums: storedAlbumData, albumNeedToCheck: searchAlbumData.listOfArtistAlbum[index])) {
+                            searchAlbumData.appendDataStatus(indexOfAlbum: index)
+                        }
+                    }
+                    
+                }
                 
                 if searchAlbumData.pageObject?.currentPageIndex == "1" {
                     wealSelf.searchAlbumDataObject = searchAlbumData
@@ -85,4 +120,29 @@ class AlubmListInteractor: AlubmListInteractorInputProtocol {
     func getArtistName() -> String? {
         return self.selectedArtistData.artistName
     }
+    
+    func setCurrentSelectedWith(albumIndex: Int) {
+        self.selectedAlbumValue = albumIndex
+        
+        guard var searchResultAlbumData = self.searchAlbumDataObject, (self.selectedAlbumValue != -1) else {
+            return
+        }
+        
+
+        let dataOfSelectedAlbum = searchResultAlbumData.listOfArtistAlbum[self.selectedAlbumValue]
+        let albumInfoRequest = AlbumInfoRequestParam(artistName: dataOfSelectedAlbum.artistName!, albumName: dataOfSelectedAlbum.albumName!, albumStatus: dataOfSelectedAlbum.albumSaved, artistMBID: dataOfSelectedAlbum.artistMBID!)
+        self.presenter?.goToSearchAlbumsInformation(requestParam: albumInfoRequest)
+
+    }
+
+    func getAlbumSaveOrNot(albums: [Albums], albumNeedToCheck: SearchAlbumArtistDataItem) -> Bool {
+        
+        let commonAlbum = albums.filter { (($0.artistName == albumNeedToCheck.artistName) && $0.albumName == albumNeedToCheck.albumName) }
+        if (commonAlbum.count > 0) {
+            return true
+        }
+        return false
+    }
+    
+    
 }

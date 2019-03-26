@@ -21,14 +21,29 @@ class SavedAlbumCell: BaseCollectionCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        TableCellUtils.createShadow(cardLayer: layer, contentLayer: shadowContainer.layer, shadowOffset: CGSize(width: 0, height: 4), shadowRadius: 4.0)
+        TableCellUtils.createShadow(cardLayer: layer, contentLayer: shadowContainer.layer, shadowOffset: CGSize(width: 0, height: 5), shadowRadius: 5.0)
     }
     
-    func bindDataToUI() {
-        nameOfAlbum.text = "asdfsdaf "
-        nameOfArtist.text = "sdaf sdf df "
+    func bindDataToUI(data: SearchAlbumArtistDataItem) {
+
+        if let albumName = data.albumName {
+            nameOfAlbum.text = albumName
+        } else {
+            nameOfAlbum.text = ""
+        }
         
-        //        coverImageOfAlbum.af_setImage(withURL: URL() imageTransition = .crossDissolve(50))
+        if let artistName = data.artistName {
+            nameOfArtist.text = "By - \(artistName)"
+        } else {
+            nameOfArtist.text = ""
+        }
+        
+        if let urlStringValue = data.albumCoverLargeImageURL, let urlObject = URL(string: urlStringValue) {
+            coverImageOfAlbum.af_setImage(withURL: urlObject, placeholderImage: UIImage(named: "albumPlaceHolder")!)
+        } else {
+            coverImageOfAlbum.image = UIImage(named: "albumPlaceHolder")!
+        }
+                
     }
     
 }

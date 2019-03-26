@@ -9,6 +9,7 @@
 import Foundation
 
 class SearchListPresenter: SearchListPresenterProtocol, SearchListInteractorOutputProtocol {
+    
     weak var view: SearchListViewProtocol?
     var interactor: SearchListInteractorInputProtocol?
     var wireFrame: SearchListWireFrameProtocol?
@@ -23,8 +24,11 @@ class SearchListPresenter: SearchListPresenterProtocol, SearchListInteractorOutp
         self.interactor?.getData(refreshData: refreshData, artistName: artistName)
     }
     
-    func goToSearchForAlbums(fromView view: AnyObject, selectedArtistData: SearchArtistDataItem) {
-        self.wireFrame?.goToSearchForAlbums(fromView: view, selectedArtistData: selectedArtistData)
+    func goToSearchForAlbums(selectedArtistData: SearchArtistDataItem) {
+        guard let baseView = self.view else {
+            return
+        }
+        self.wireFrame?.goToSearchForAlbums(fromView: baseView, selectedArtistData: selectedArtistData)
     }
     
     func openSelectedArtistForAlbum(data: SearchArtistDataItem) {

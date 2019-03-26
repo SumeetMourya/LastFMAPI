@@ -54,16 +54,18 @@ struct AlbumTrackItem: Decodable {
 
 struct AlbumInfoItem: Decodable {
 
-    let albumSaved: Bool = false
+    var albumSaved: Bool = false
     let albumName: String?
     let artistName: String?
     let albumPlayCount: String?
     let albumListenersCount: String?
     let albumMBID: String?
+    let albumURL: String?
     var tracks: [AlbumTrackItem] = [AlbumTrackItem]()
     var albumCoverSmallImageURL: String? = nil
     var albumCoverLargeImageURL: String? = nil
-    
+    var artistMBID: String? = nil
+
     enum AlbumDataKeys: String, CodingKey {
         case album
     }
@@ -72,6 +74,7 @@ struct AlbumInfoItem: Decodable {
         
         case name
         case artist
+        case url
         case playcount
         case listeners
         case mbid
@@ -94,6 +97,7 @@ struct AlbumInfoItem: Decodable {
             self.albumPlayCount = try? container.decode(String.self, forKey: .playcount)
             self.albumListenersCount = try? container.decode(String.self, forKey: .listeners)
             self.albumMBID = try? container.decode(String.self, forKey: .mbid)
+            self.albumURL = try? container.decode(String.self, forKey: .url)
             
             if let imagesArrayData = try? container.decode([AlbumImageData].self, forKey: .image) {
                 
@@ -120,10 +124,15 @@ struct AlbumInfoItem: Decodable {
             self.albumPlayCount = nil
             self.albumListenersCount = nil
             self.albumMBID = nil
-
+            self.albumURL = nil
         }
         
     }
+    
+    mutating func updateAlbumSaveStatus(value: Bool) {
+        albumSaved = value
+    }
+
 }
 
 

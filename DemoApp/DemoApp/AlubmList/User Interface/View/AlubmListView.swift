@@ -12,7 +12,7 @@ import ESPullToRefresh
 
 
 class AlubmListViewController: UIViewController, AlubmListViewProtocol {
-
+    
     var presenter: AlubmListPresenterProtocol?
     var listOfSearchAlbum: [SearchAlbumArtistDataItem] = [SearchAlbumArtistDataItem]()
     
@@ -27,9 +27,9 @@ class AlubmListViewController: UIViewController, AlubmListViewProtocol {
         super.viewDidLoad()
         
         if let artistNameForAlbumSearching = self.presenter?.getArtistName() {
-            self.title = "Albums List for \(artistNameForAlbumSearching)"
+            self.title = "By: \(artistNameForAlbumSearching)"
         } else {
-            self.title = "Albums List for "
+            self.title = "By: "
         }
         
         cvAlbumListForArtist.delaysContentTouches = false
@@ -65,8 +65,10 @@ class AlubmListViewController: UIViewController, AlubmListViewProtocol {
         
         self.present(alertController, animated: true, completion: nil)
     }
+   
     
     //show the error when list is having some items
+    
     func showErrorInBottomView(show: Bool) {
         
         layoutiPhoneXBottomManageViewHeight.constant = show ? (UIDevice.isHavingCurved ? 50 : 0) : 0
@@ -158,10 +160,9 @@ class AlubmListViewController: UIViewController, AlubmListViewProtocol {
 extension AlubmListViewController: UICollectionViewDelegate {
    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        let dataOfSelectedAlbum = listOfSearchAlbum[indexPath.row]
-        self.presenter?.goToSearchAlbumsDetail(fromView: self, requestParam: AlbumInfoRequestParam(artistName: dataOfSelectedAlbum.artistName!, albumName: dataOfSelectedAlbum.albumName!))
-        
+        self.presenter?.setCurrentSelectedWith(albumIndex: indexPath.row)
+//        let dataOfSelectedAlbum = listOfSearchAlbum[indexPath.row]
+//        self.presenter?.goToSearchAlbumsDetail(fromView: self, requestParam: AlbumInfoRequestParam(artistName: dataOfSelectedAlbum.artistName!, albumName: dataOfSelectedAlbum.albumName!, albumStatus: dataOfSelectedAlbum.albumSaved, artistMBID: dataOfSelectedAlbum.artistMBID!))
     }
     
 }

@@ -13,9 +13,9 @@ import AlamofireImage
 class AlubmDetailsViewController: UIViewController, AlubmDetailsViewProtocol {
     
     var presenter: AlubmDetailsPresenterProtocol?
-//    var listOfTracks: [AlbumTrackItem] = [AlbumTrackItem]()
     var albumInformationData: AlbumInfoItem?
-    
+    var rippelLayer:CAShapeLayer!
+
     @IBOutlet var btnStoreDataToggle: UIButton!
     @IBOutlet var actionButtonParentView: UIView!
     @IBOutlet var imgAlbumCover: UIImageView!
@@ -29,6 +29,26 @@ class AlubmDetailsViewController: UIViewController, AlubmDetailsViewProtocol {
     
     @IBAction func actionOnToggleForStoringData(_ sender: UIButton) {
         
+        guard let dataNeedToChange = albumInformationData else {
+            return
+        }
+        if (sender.tag == 1000) {
+            if self.presenter?.deleteAlbumData(albumInforData: dataNeedToChange) ?? false {
+                albumInformationData?.updateAlbumSaveStatus(value: false)
+            } else {
+                albumInformationData?.updateAlbumSaveStatus(value: true)
+            }
+        } else {
+            if self.presenter?.saveAlbumData(albumInforData: dataNeedToChange) ?? false {
+                albumInformationData?.updateAlbumSaveStatus(value: true)
+            } else {
+                albumInformationData?.updateAlbumSaveStatus(value: false)
+            }
+        }
+        
+        NotificationCenter.default.post(name: CoreDataManager.AlbumStoringModifiedNotification, object: nil)
+        
+        self.updateToggleButton()
     }
     
     override func viewDidLoad() {
@@ -74,14 +94,15 @@ class AlubmDetailsViewController: UIViewController, AlubmDetailsViewProtocol {
             btnStoreDataToggle.isHidden = false
             if (data.albumSaved) {
                 btnStoreDataToggle.setTitle("Delete", for: .normal)
-                btnStoreDataToggle.backgroundColor = #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)
+                btnStoreDataToggle.backgroundColor = #colorLiteral(red: 0.9058823529, green: 0.2980392157, blue: 0.2352941176, alpha: 1)
+                btnStoreDataToggle.tag = 1000
             } else {
                 btnStoreDataToggle.setTitle("Add", for: .normal)
-                btnStoreDataToggle.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+                btnStoreDataToggle.backgroundColor = #colorLiteral(red: 0.1803921569, green: 0.8, blue: 0.4431372549, alpha: 1)
+                btnStoreDataToggle.tag = 2000
             }
         }
     }
-    
     
     
     //MARK: AlubmDetailsViewProtocol Methods
@@ -136,7 +157,9 @@ class AlubmDetailsViewController: UIViewController, AlubmDetailsViewProtocol {
             self.lblErrorText.isHidden = true
             
             if let urlStringValue = albumInforData.albumCoverLargeImageURL, let urlObject = URL(string: urlStringValue) {
-                self.imgAlbumCover.af_setImage(withURL: urlObject, placeholderImage: UIImage(named: "profileicon")!)
+                self.imgAlbumCover.af_setImage(withURL: urlObject, placeholderImage: UIImage(named: "imagePlaceHolderBig")!)
+            } else {
+                self.imgAlbumCover.image = UIImage(named: "imagePlaceHolderBig")!
             }
             self.albumInformationData = albumInforData
             self.tblvTrackList.reloadData()

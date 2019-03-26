@@ -22,7 +22,7 @@ class AlubmListWireFrame: AlubmListWireFrameProtocol {
         let presenter: AlubmListPresenterProtocol & AlubmListInteractorOutputProtocol = AlubmListPresenter()
         let interactor: AlubmListInteractorInputProtocol = AlubmListInteractor(artistData: selectedArtist)
         let APIDataManager: AlubmListAPIDataManagerInputProtocol = AlubmListAPIDataManager()
-        let localDataManager: AlubmListLocalDataManagerInputProtocol = AlubmListLocalDataManager()
+        let localDataManager: AlubmListLocalDataManagerInputProtocol = AlubmListLocalDataManager(coreDataManager: CoreDataManager.sharedDatabaseManager)
         let wireFrame: AlubmListWireFrameProtocol = AlubmListWireFrame()
 
         // Connecting
@@ -39,30 +39,7 @@ class AlubmListWireFrame: AlubmListWireFrameProtocol {
         }
         
         previousView.navigationController?.pushViewController(view as! UIViewController, animated: true)
-    }
-    
-    static func presentAlubmListModule(selectedArtist: SearchArtistDataItem) -> AlubmListViewProtocol {
-        
-        // Generating module components
-        let view: AlubmListViewProtocol = UIStoryboard(name:"Main",bundle: Bundle.main).instantiateViewController(withIdentifier: "AlubmListViewControllerID") as! AlubmListViewController
-        
-        let presenter: AlubmListPresenterProtocol & AlubmListInteractorOutputProtocol = AlubmListPresenter()
-        let interactor: AlubmListInteractorInputProtocol = AlubmListInteractor(artistData: selectedArtist)
-        let APIDataManager: AlubmListAPIDataManagerInputProtocol = AlubmListAPIDataManager()
-        let localDataManager: AlubmListLocalDataManagerInputProtocol = AlubmListLocalDataManager()
-        let wireFrame: AlubmListWireFrameProtocol = AlubmListWireFrame()
-        
-        // Connecting
-        view.presenter = presenter
-        presenter.view = view
-        presenter.wireFrame = wireFrame
-        presenter.interactor = interactor
-        interactor.presenter = presenter
-        interactor.APIDataManager = APIDataManager
-        interactor.localDatamanager = localDataManager
-        
-        return view as! AlubmListViewController
-    }
+    }    
 
     func goToSearchAlbumsDetail(fromView view: AnyObject, selectedAlbum: AlbumInfoRequestParam) {
         AlubmDetailsWireFrame.presentAlubmDetailsModule(fromView: view, requestParam: selectedAlbum, albumInfoData: nil)

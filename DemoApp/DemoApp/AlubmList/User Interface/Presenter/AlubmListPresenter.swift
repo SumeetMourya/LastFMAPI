@@ -27,8 +27,8 @@ class AlubmListPresenter: AlubmListPresenterProtocol, AlubmListInteractorOutputP
         return self.interactor?.getArtistName()
     }
     
-    func goToSearchAlbumsDetail(fromView: AnyObject, requestParam: AlbumInfoRequestParam) {
-        self.wireFrame?.goToSearchAlbumsDetail(fromView: fromView, selectedAlbum: requestParam)
+    func setCurrentSelectedWith(albumIndex: Int) {
+        self.interactor?.setCurrentSelectedWith(albumIndex: albumIndex)
     }
     
     
@@ -42,6 +42,9 @@ class AlubmListPresenter: AlubmListPresenterProtocol, AlubmListInteractorOutputP
         self.view?.errorInLoadingDataWith(error: error, errorCode: errorCode)
     }
 
+    func goToSearchAlbumsInformation(requestParam: AlbumInfoRequestParam) {        
+        self.wireFrame?.goToSearchAlbumsDetail(fromView: self.view!, selectedAlbum: requestParam)
+    }
 
 }
 

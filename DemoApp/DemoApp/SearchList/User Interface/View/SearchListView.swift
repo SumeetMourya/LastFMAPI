@@ -163,8 +163,7 @@ class SearchListViewController: UIViewController, SearchListViewProtocol {
 extension SearchListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        self.presenter?.openSelectedArtistForAlbum(data: listOfSearchArtists[indexPath.row])
-        self.presenter?.goToSearchForAlbums(fromView: self, selectedArtistData: listOfSearchArtists[indexPath.row])
+        self.presenter?.goToSearchForAlbums(selectedArtistData: listOfSearchArtists[indexPath.row])
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{

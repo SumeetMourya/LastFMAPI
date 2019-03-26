@@ -11,7 +11,7 @@ import UIKit
 
 class AlubmDetailsWireFrame: AlubmDetailsWireFrameProtocol {
 
-    class func presentAlubmDetailsModule(fromView: AnyObject, requestParam: AlbumInfoRequestParam?, albumInfoData: SearchAlbumArtistDataItem?) {
+    class func presentAlubmDetailsModule(fromView: AnyObject, requestParam: AlbumInfoRequestParam?, albumInfoData: AlbumInfoItem?) {
 
         // Generating module components
         guard let view: AlubmDetailsViewProtocol & LoaderView = UIStoryboard(name:"Main",bundle: Bundle.main).instantiateViewController(withIdentifier: "AlubmDetailsViewControllerID") as? AlubmDetailsViewController else {
@@ -25,7 +25,7 @@ class AlubmDetailsWireFrame: AlubmDetailsWireFrameProtocol {
         let presenter: AlubmDetailsPresenterProtocol & AlubmDetailsInteractorOutputProtocol = AlubmDetailsPresenter()
         let interactor: AlubmDetailsInteractorInputProtocol = AlubmDetailsInteractor(requestParamValue: requestParam)
         let APIDataManager: AlubmDetailsAPIDataManagerInputProtocol = AlubmDetailsAPIDataManager()
-        let localDataManager: AlubmDetailsLocalDataManagerInputProtocol = AlubmDetailsLocalDataManager()
+        let localDataManager: AlubmDetailsLocalDataManagerInputProtocol = AlubmDetailsLocalDataManager(coreDataManager: CoreDataManager.sharedDatabaseManager)
         let wireFrame: AlubmDetailsWireFrameProtocol = AlubmDetailsWireFrame()
 
         // Connecting

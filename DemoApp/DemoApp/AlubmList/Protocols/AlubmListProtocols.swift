@@ -21,7 +21,6 @@ protocol AlubmListViewProtocol: class {
 protocol AlubmListWireFrameProtocol: class {
     
     static func presentAlubmListModule(fromView: AnyObject, selectedArtist: SearchArtistDataItem)
-    static func presentAlubmListModule(selectedArtist: SearchArtistDataItem) -> AlubmListViewProtocol
     
     //here your methods for communication PRESENTER -> WIREFRAME
     func goToSearchAlbumsDetail(fromView view: AnyObject, selectedAlbum: AlbumInfoRequestParam)
@@ -37,8 +36,8 @@ protocol AlubmListPresenterProtocol: class {
     //here your methods for communication VIEW -> PRESENTER
     func getData(refreshData: Bool)
     func getArtistName() -> String?
-    func goToSearchAlbumsDetail(fromView: AnyObject, requestParam: AlbumInfoRequestParam) 
-
+    func setCurrentSelectedWith(albumIndex: Int)
+    
 }
 
 protocol AlubmListInteractorOutputProtocol: class {
@@ -46,6 +45,7 @@ protocol AlubmListInteractorOutputProtocol: class {
     //here your methods for communication INTERACTOR -> PRESENTER
     func updateAlbumSearchList(searchAlbumData: [SearchAlbumArtistDataItem], needToUpdate: Bool, needToShowEmpty: Bool)
     func errorInLoadingDataWith(error: Error?, errorCode: ApiStatusType)
+    func goToSearchAlbumsInformation(requestParam: AlbumInfoRequestParam)
 
 }
 
@@ -58,6 +58,8 @@ protocol AlubmListInteractorInputProtocol: class {
     //here your methods for communication PRESENTER -> INTERACTOR
     func getData(refreshData: Bool)
     func getArtistName() -> String?
+    func setCurrentSelectedWith(albumIndex: Int)
+    
 }
 
 protocol AlubmListDataManagerInputProtocol: class {
@@ -75,5 +77,7 @@ protocol AlubmListAPIDataManagerInputProtocol: class {
 protocol AlubmListLocalDataManagerInputProtocol: class {
     
     //here your methods for communication INTERACTOR -> LOCALDATAMANAGER
+    func getSavedAlbum(for artistName: String ) -> [Albums]
+    func getSavedAlbum(for artistName: String, artistMBID: String ) -> [Albums]
 
 }

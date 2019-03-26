@@ -41,7 +41,7 @@ protocol SearchListPresenterProtocol: class {
     
     //here your methods for communication VIEW -> PRESENTER
     func getData(refreshData: Bool, artistName: String)
-    func goToSearchForAlbums(fromView view: AnyObject, selectedArtistData: SearchArtistDataItem)
+    func goToSearchForAlbums(selectedArtistData: SearchArtistDataItem)
     func openSelectedArtistForAlbum(data: SearchArtistDataItem)
 }
 

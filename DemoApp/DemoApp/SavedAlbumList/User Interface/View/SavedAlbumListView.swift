@@ -12,6 +12,7 @@ import UIKit
 class SavedAlbumListViewController: UIViewController, SavedAlbumListViewProtocol, ArtistSearchScreenDelegate {
     
     var presenter: SavedAlbumListPresenterProtocol?
+    var listOfAlbumsData = [SearchAlbumArtistDataItem]()
     
     @IBOutlet var cvSavedAlbumList: UICollectionView!
     @IBOutlet var statusText: UILabel!
@@ -23,31 +24,17 @@ class SavedAlbumListViewController: UIViewController, SavedAlbumListViewProtocol
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Saved Album List"
+        self.title = "Saved Albums List"
         
         cvSavedAlbumList.delaysContentTouches = false
         cvSavedAlbumList.setCollectionViewLayout(UICollectionViewFlowLayout(), animated: false)
         
-        /*
          cvSavedAlbumList.es.addPullToRefresh { [unowned self] in
-         self.presenter?.getData(refreshData: true)
+            self.presenter?.getSavedAlbum()
          }
-         cvSavedAlbumList.es.addInfiniteScrolling { [unowned self] in
-         self.presenter?.getData(refreshData: false)
-         }
-         self.presenter?.getData(refreshData: true)
-         */
-        
-        //        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        ////        layout.sectionInset = UIEdgeInsets(top: 30, left: 10, bottom: 30, right: 10)
-        //        let screenWidth = self.cvSavedAlbumList.frame.size.width - 100
-        //        layout.itemSize = CGSize(width: screenWidth / 2, height: 220)
-        //        layout.minimumInteritemSpacing = 10
-        //        layout.minimumLineSpacing = 10
-        //        self.cvSavedAlbumList.collectionViewLayout = layout
-        
-        
-        self.cvSavedAlbumList.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 30, right: 0)
+
+        self.presenter?.getSavedAlbum()
+        self.cvSavedAlbumList.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 10, right: 0)
     }
     
     
@@ -58,10 +45,32 @@ class SavedAlbumListViewController: UIViewController, SavedAlbumListViewProtocol
     func ArtistSearchSelected(selectedArtistData: SearchArtistDataItem) {
         self.presenter?.goToSearchForAlbums(fromView: self, selectedArtistData: selectedArtistData)
     }
-    
+
+    func showSavedAlbum(listOfAlbums: [SearchAlbumArtistDataItem]) {
+        listOfAlbumsData = listOfAlbums
+        DispatchQueue.main.async() {
+            self.cvSavedAlbumList.reloadData()
+        }
+    }
+
+    func hideActivityIndicatorWithError(title: String?, subtitle: String?) {
+//        self.lblErrorText.text = title
+//        self.tblvTrackList.isHidden = true
+//        self.lblErrorText.isHidden = false
+    }
+
 
 }
 
+//MARK: UICollectionViewDelegate Methods
+
+extension SavedAlbumListViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        self.presenter?.setCurrentSelectedWith(albumIndex: indexPath.row)
+    }
+    
+}
 
 // MARK: UICollectionViewDataSource methods
 
@@ -72,14 +81,14 @@ extension SavedAlbumListViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
+        return listOfAlbumsData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SavedAlbumCell.identifier, for: indexPath) as! SavedAlbumCell
         
-        cell.bindDataToUI()
+        cell.bindDataToUI(data: listOfAlbumsData[indexPath.row])
         return cell
     }
     
@@ -94,24 +103,23 @@ extension SavedAlbumListViewController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: (collectionView.frame.width - 30) / 2, height: 200)
+        return CGSize(width: (collectionView.frame.width - 45) / 2, height: 200)
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 10.0
+        return 15.0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10.0
+        return 15.0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         
-        return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        return UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
     }
-    
     
 }
 

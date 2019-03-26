@@ -55,6 +55,11 @@
 		E1BABB602247A028003BC361 /* SavedAlbumListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BABB582247A028003BC361 /* SavedAlbumListView.swift */; };
 		E1BABB622247A274003BC361 /* SavedAlbumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BABB612247A274003BC361 /* SavedAlbumCell.swift */; };
 		E1C203E9224908FD005CD6FE /* SoundTrackCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C203E8224908FC005CD6FE /* SoundTrackCell.swift */; };
+		E1C203EC224969B9005CD6FE /* DemoApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E1C203EA224969B8005CD6FE /* DemoApp.xcdatamodeld */; };
+		E1C203F922498FB4005CD6FE /* Albums+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C203F522498FB4005CD6FE /* Albums+CoreDataClass.swift */; };
+		E1C203FA22498FB4005CD6FE /* Albums+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C203F622498FB4005CD6FE /* Albums+CoreDataProperties.swift */; };
+		E1C203FB22498FB4005CD6FE /* Tracks+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C203F722498FB4005CD6FE /* Tracks+CoreDataClass.swift */; };
+		E1C203FC22498FB4005CD6FE /* Tracks+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C203F822498FB4005CD6FE /* Tracks+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -110,6 +115,11 @@
 		E1BABB582247A028003BC361 /* SavedAlbumListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedAlbumListView.swift; sourceTree = "<group>"; };
 		E1BABB612247A274003BC361 /* SavedAlbumCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedAlbumCell.swift; sourceTree = "<group>"; };
 		E1C203E8224908FC005CD6FE /* SoundTrackCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundTrackCell.swift; sourceTree = "<group>"; };
+		E1C203EB224969B8005CD6FE /* DemoApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DemoApp.xcdatamodel; sourceTree = "<group>"; };
+		E1C203F522498FB4005CD6FE /* Albums+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Albums+CoreDataClass.swift"; sourceTree = "<group>"; };
+		E1C203F622498FB4005CD6FE /* Albums+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Albums+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		E1C203F722498FB4005CD6FE /* Tracks+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tracks+CoreDataClass.swift"; sourceTree = "<group>"; };
+		E1C203F822498FB4005CD6FE /* Tracks+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tracks+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +178,7 @@
 				E1BABAF222463B1E003BC361 /* AlubmList */,
 				E1BABADF22463B1E003BC361 /* SearchList */,
 				E1BABACA224630A6003BC361 /* AppDelegate.swift */,
+				E1C203EA224969B8005CD6FE /* DemoApp.xcdatamodeld */,
 				E1BABACE224630A6003BC361 /* Main.storyboard */,
 				E1BABAD4224630A8003BC361 /* Assets.xcassets */,
 				E1BABAD6224630A8003BC361 /* LaunchScreen.storyboard */,
@@ -497,6 +508,10 @@
 		E1BABB3D224769F1003BC361 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				E1C203F522498FB4005CD6FE /* Albums+CoreDataClass.swift */,
+				E1C203F622498FB4005CD6FE /* Albums+CoreDataProperties.swift */,
+				E1C203F722498FB4005CD6FE /* Tracks+CoreDataClass.swift */,
+				E1C203F822498FB4005CD6FE /* Tracks+CoreDataProperties.swift */,
 				E1BABB3E22476A00003BC361 /* CoreDataManager.swift */,
 			);
 			path = CoreData;
@@ -731,12 +746,14 @@
 				E1BABB2E22463B1E003BC361 /* AlubmDetailsWireFrame.swift in Sources */,
 				E1BABB1C22463B1E003BC361 /* SearchListProtocols.swift in Sources */,
 				E1BABB3C22467D46003BC361 /* AlbumCell.swift in Sources */,
+				E1C203F922498FB4005CD6FE /* Albums+CoreDataClass.swift in Sources */,
 				E1BABB2F22463B1E003BC361 /* AlubmDetailsView.swift in Sources */,
 				E1BABB36224662F6003BC361 /* BaseTableCell.swift in Sources */,
 				E1BABB1E22463B1E003BC361 /* SearchListWireFrame.swift in Sources */,
 				E1BABB2022463B1E003BC361 /* AlubmListLocalDataManager.swift in Sources */,
 				E1BABB5C2247A028003BC361 /* SavedAlbumListItem.swift in Sources */,
 				E1BABB622247A274003BC361 /* SavedAlbumCell.swift in Sources */,
+				E1C203FA22498FB4005CD6FE /* Albums+CoreDataProperties.swift in Sources */,
 				E1BABB3822466310003BC361 /* TableCellLayer.swift in Sources */,
 				E1BABB592247A028003BC361 /* SavedAlbumListLocalDataManager.swift in Sources */,
 				E1BABB602247A028003BC361 /* SavedAlbumListView.swift in Sources */,
@@ -751,17 +768,20 @@
 				E1BABB1B22463B1E003BC361 /* SearchListItem.swift in Sources */,
 				E1BABB2522463B1E003BC361 /* AlubmListPresenter.swift in Sources */,
 				E1BABB1922463B1E003BC361 /* SearchListAPIDataManager.swift in Sources */,
+				E1C203EC224969B9005CD6FE /* DemoApp.xcdatamodeld in Sources */,
 				E1BABB43224771D0003BC361 /* SearchAlbumCell.swift in Sources */,
 				E1BABB2622463B1E003BC361 /* AlubmListWireFrame.swift in Sources */,
 				E1BABB1A22463B1E003BC361 /* SearchListInteractor.swift in Sources */,
 				E1BABB2722463B1E003BC361 /* AlubmListView.swift in Sources */,
 				E1BABB2322463B1E003BC361 /* AlubmListInteractor.swift in Sources */,
+				E1C203FB22498FB4005CD6FE /* Tracks+CoreDataClass.swift in Sources */,
 				E1BABB4122476A45003BC361 /* LoaderView.swift in Sources */,
 				E1BABB4522479C51003BC361 /* NSLayoutConstraint+Utils.swift in Sources */,
 				E1BABB2822463B1E003BC361 /* AlubmDetailsLocalDataManager.swift in Sources */,
 				E1BABB2222463B1E003BC361 /* AlubmListItem.swift in Sources */,
 				E1BABB5E2247A028003BC361 /* SavedAlbumListPresenter.swift in Sources */,
 				E1BABB2A22463B1E003BC361 /* AlubmDetailsItem.swift in Sources */,
+				E1C203FC22498FB4005CD6FE /* Tracks+CoreDataProperties.swift in Sources */,
 				E1BABB2B22463B1E003BC361 /* AlubmDetailsInteractor.swift in Sources */,
 				E1BABB2422463B1E003BC361 /* AlubmListProtocols.swift in Sources */,
 				E1BABB5A2247A028003BC361 /* SavedAlbumListAPIDataManager.swift in Sources */,
@@ -973,6 +993,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		E1C203EA224969B8005CD6FE /* DemoApp.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				E1C203EB224969B8005CD6FE /* DemoApp.xcdatamodel */,
+			);
+			currentVersion = E1C203EB224969B8005CD6FE /* DemoApp.xcdatamodel */;
+			name = DemoApp.xcdatamodeld;
+			path = ../../../PW/AppFactory/DemoApp.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = E1BABABF224630A6003BC361 /* Project object */;
 }

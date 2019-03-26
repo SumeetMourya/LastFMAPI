@@ -30,6 +30,14 @@ class AlubmDetailsPresenter: AlubmDetailsPresenterProtocol, AlubmDetailsInteract
     func getArtistName() -> String {
         return self.interactor?.getArtistName() ?? ""
     }
+        
+    func saveAlbumData(albumInforData: AlbumInfoItem) -> Bool  {
+        return self.interactor?.saveAlbumData(albumInforData: albumInforData) ?? false
+    }
+    
+    func deleteAlbumData(albumInforData: AlbumInfoItem) -> Bool  {
+        return self.interactor?.deleteAlbumData(albumInforData: albumInforData) ?? false
+    }
 
     
     //MARK: AlubmDetailsInteractorOutputProtocol methods

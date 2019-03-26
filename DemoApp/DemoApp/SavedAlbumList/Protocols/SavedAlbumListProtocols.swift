@@ -8,10 +8,11 @@
 
 import Foundation
 
-protocol SavedAlbumListViewProtocol: class {
+protocol SavedAlbumListViewProtocol: LoaderView {
     var presenter: SavedAlbumListPresenterProtocol? { get set }
     
     //here your methods for communication PRESENTER -> VIEW
+    func showSavedAlbum(listOfAlbums: [SearchAlbumArtistDataItem])
 
 }
 
@@ -32,11 +33,17 @@ protocol SavedAlbumListPresenterProtocol: class {
     //here your methods for communication VIEW -> PRESENTER
     func openSearchForArtists(fromView view: AnyObject)
     func goToSearchForAlbums(fromView view: AnyObject, selectedArtistData: SearchArtistDataItem)
+    func getSavedAlbum()
+
 }
 
 protocol SavedAlbumListInteractorOutputProtocol: class {
     
     //here your methods for communication INTERACTOR -> PRESENTER
+    func showSavedAlbum(listOfAlbums: [SearchAlbumArtistDataItem])
+    func showActivityIndicator()
+    func hideActivityIndicator()
+    func hideActivityIndicatorWithError(title: String?, subtitle: String?)
 
 }
 
@@ -47,7 +54,8 @@ protocol SavedAlbumListInteractorInputProtocol: class {
     var localDatamanager: SavedAlbumListLocalDataManagerInputProtocol? { get set }
     
     //here your methods for communication PRESENTER -> INTERACTOR
-
+    func getSavedAlbum()
+    
 }
 
 protocol SavedAlbumListDataManagerInputProtocol: class {
@@ -65,5 +73,6 @@ protocol SavedAlbumListAPIDataManagerInputProtocol: class {
 protocol SavedAlbumListLocalDataManagerInputProtocol: class {
     
     //here your methods for communication INTERACTOR -> LOCALDATAMANAGER
-
+    func getSavedAlbum() -> [SearchAlbumArtistDataItem]
+    
 }

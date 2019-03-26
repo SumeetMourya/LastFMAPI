@@ -13,7 +13,6 @@ class SoundTrackCell: UITableViewCell {
     
     static let identifier = "SoundTrackCellID"
     
-    @IBOutlet var shadowContainer: UIView!
     @IBOutlet var soundTrack: UILabel!
     @IBOutlet var soundTrackDuration: UILabel!
     
@@ -30,7 +29,7 @@ class SoundTrackCell: UITableViewCell {
     func bindDataToUI(data: AlbumTrackItem) {
         
         soundTrack.text = data.trackName
-        if let duration = data.trackDuration, let durationInInt = Int(duration), durationInInt > 0 {
+        if let duration = data.trackDuration, let durationInInt = Int(duration) {
             soundTrackDuration.text = SoundTrackCell.stringFromTimeInterval(TimeInterval(durationInInt))
         }
     }

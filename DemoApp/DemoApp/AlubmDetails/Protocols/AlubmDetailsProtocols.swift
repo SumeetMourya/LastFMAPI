@@ -20,7 +20,7 @@ protocol AlubmDetailsViewProtocol: LoaderView {
 
 protocol AlubmDetailsWireFrameProtocol: class {
     
-    static func presentAlubmDetailsModule(fromView: AnyObject, requestParam: AlbumInfoRequestParam?, albumInfoData: SearchAlbumArtistDataItem?)
+    static func presentAlubmDetailsModule(fromView: AnyObject, requestParam: AlbumInfoRequestParam?, albumInfoData: AlbumInfoItem?)
     
     //here your methods for communication PRESENTER -> WIREFRAME
 
@@ -36,6 +36,8 @@ protocol AlubmDetailsPresenterProtocol: class {
     func getAlbumInformationWithAPI()
     func getAlbumName() -> String
     func getArtistName() -> String
+    func saveAlbumData(albumInforData: AlbumInfoItem) -> Bool 
+    func deleteAlbumData(albumInforData: AlbumInfoItem) -> Bool 
 
 }
 
@@ -61,6 +63,8 @@ protocol AlubmDetailsInteractorInputProtocol: class {
     func getAlbumInformationWithAPI()
     func getAlbumName() -> String
     func getArtistName() -> String
+    func saveAlbumData(albumInforData: AlbumInfoItem) -> Bool 
+    func deleteAlbumData(albumInforData: AlbumInfoItem) -> Bool 
 
 }
 
@@ -82,5 +86,7 @@ protocol AlubmDetailsAPIDataManagerInputProtocol: class {
 protocol AlubmDetailsLocalDataManagerInputProtocol: class {
     
     //here your methods for communication INTERACTOR -> LOCALDATAMANAGER
+    func saveAlbumData(albumInforData: AlbumInfoItem) -> Bool 
+    func deleteAlbumData(albumInforData: AlbumInfoItem) -> Bool 
 
 }
