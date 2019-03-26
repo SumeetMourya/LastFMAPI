@@ -16,6 +16,36 @@ class SavedAlbumListLocalDataManager: SavedAlbumListLocalDataManagerInputProtoco
         coreDataManagerObj = coreDataManager
     }
     
+    //This methods will genrate the JSON string for creating the Decode data for AlbumInfoItem
+    
+    func getTracksDataInString(artistName: String, albumName: String) -> String {
+        
+        let albumTracks = coreDataManagerObj.fetchData(Tracks.fetchRequestWith(artistName: artistName, albumName: albumName))
+        
+        var trackStringValue: String = ""
+        
+        for index in 0..<albumTracks.count {
+            
+            let track = albumTracks[index]
+            let trackStringValueUpdate = """
+            {
+            "name": "\(track.trackName ?? "")",
+            "url": "\(track.trackURL ?? "")",
+            "duration": "\(track.trackDuration ?? "")",
+            "@attr": {
+            "rank": "\(track.trackOrder)"
+            }
+            }
+            """
+            trackStringValue = trackStringValue + trackStringValueUpdate + (index == (albumTracks.count - 1) ? "" : ",")
+        }
+        
+        return trackStringValue
+        
+    }
+
+    //MARK: SavedAlbumListLocalDataManagerInputProtocol Methdos
+    
     func getSavedAlbum() -> [SearchAlbumArtistDataItem] {
         
         let getSavedAlbums = coreDataManagerObj.fetchEntireDataData(Albums.self)
@@ -113,34 +143,5 @@ class SavedAlbumListLocalDataManager: SavedAlbumListLocalDataManagerInputProtoco
 
     }
     
-    
-    func getTracksDataInString(artistName: String, albumName: String) -> String {
-        
-        let albumTracks = coreDataManagerObj.fetchData(Tracks.fetchRequestWith(artistName: artistName, albumName: albumName))
-        
-        var trackStringValue: String = ""
-        
-        for index in 0..<albumTracks.count {
-           
-            let track = albumTracks[index]
-            let trackStringValueUpdate = """
-            {
-            "name": "\(track.trackName ?? "")",
-            "url": "\(track.trackURL ?? "")",
-            "duration": "\(track.trackDuration ?? "")",
-            "@attr": {
-                "rank": "\(track.trackOrder)"
-            }
-            }
-            """
-            trackStringValue = trackStringValue + trackStringValueUpdate + (index == (albumTracks.count - 1) ? "" : ",")
-        }
-        
-        return trackStringValue
-//        } else {
-//            return ""
-//        }
-        
-    }
     
 }

@@ -36,8 +36,9 @@ class SavedAlbumListViewController: UIViewController, SavedAlbumListViewProtocol
         self.presenter?.getSavedAlbum()
         self.cvSavedAlbumList.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 10, right: 0)
     }
-    
-    
+
+    //MARK: ArtistSearchScreenDelegate Methods
+
     func ArtistSearchDismissed() {
         
     }
@@ -46,6 +47,9 @@ class SavedAlbumListViewController: UIViewController, SavedAlbumListViewProtocol
         self.presenter?.goToSearchForAlbums(fromView: self, selectedArtistData: selectedArtistData)
     }
 
+
+    //MARK: SavedAlbumListViewProtocol Methods
+    
     func showSavedAlbum(listOfAlbums: [SearchAlbumArtistDataItem]) {
         listOfAlbumsData = listOfAlbums
         DispatchQueue.main.async() {
@@ -60,7 +64,6 @@ class SavedAlbumListViewController: UIViewController, SavedAlbumListViewProtocol
         statusText.isHidden = false
         cvSavedAlbumList.isHidden = true
     }
-
 
 }
 

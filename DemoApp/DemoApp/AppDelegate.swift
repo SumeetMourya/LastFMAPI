@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-    print("Documents Directory: ", FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last ?? "Not Found!")
+//    print("Documents Directory: ", FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last ?? "Not Found!")
 
         let navigationController = UINavigationController()
         SavedAlbumListWireFrame.presentSavedAlbumListModule(fromView: navigationController)
@@ -28,84 +28,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return true
     }
-
-    /*
-    func callAlbumSearch() {
-        
-        let apisServiceStart = APIService()
-        
-        apisServiceStart.loadDataWith(urlString: API.urlSearchAlbumForArtistRequest(artistName: "Che", pageIndex: 1, pageLimit: 20), onSuccess: { (parseData, succeedCode) in
-            
-            let responseStrInISOLatin = String(data: parseData, encoding: String.Encoding.isoLatin1)
-            guard let modifiedDataInUTF8Format = responseStrInISOLatin?.data(using: String.Encoding.utf8) else {
-                print("could not convert data to UTF-8 format")
-                
-                return
-            }
-            
-            do {
-                let manufacturer = try JSONDecoder().decode(SearchAlbumListData.self, from: modifiedDataInUTF8Format)
-                
-                print("manufacturer: \(manufacturer)")
-                
-            } catch let error as NSError {
-            }
-            
-        }) { (error, errorData) in
-        }
-    }
-    
-    
-    func callAlbumInfo() {
-        
-        let apisServiceStart = APIService()
-        
-        apisServiceStart.loadDataWith(urlString: API.urlArtistsAlbumDataRequest(artistName: "Cher", albumName: "Believe"), onSuccess: { (parseData, succeedCode) in
-            
-            let responseStrInISOLatin = String(data: parseData, encoding: String.Encoding.isoLatin1)
-            guard let modifiedDataInUTF8Format = responseStrInISOLatin?.data(using: String.Encoding.utf8) else {
-                print("could not convert data to UTF-8 format")
-                
-                return
-            }
-            
-            do {
-                let manufacturer = try JSONDecoder().decode(AlbumInfoItem.self, from: modifiedDataInUTF8Format)
-                
-                print("manufacturer: \(manufacturer)")
-                
-            } catch let error as NSError {
-            }
-            
-        }) { (error, errorData) in
-        }
-    }
-    
-    func callSearchArtists() {
-        
-        let apisServiceStart = APIService()
-        
-        apisServiceStart.loadDataWith(urlString: API.urlArtistSearchRequest(artistName: "Che", pageIndex: 1, pageLimit: 20), onSuccess: { (parseData, succeedCode) in
-            
-            let responseStrInISOLatin = String(data: parseData, encoding: String.Encoding.isoLatin1)
-            guard let modifiedDataInUTF8Format = responseStrInISOLatin?.data(using: String.Encoding.utf8) else {
-                print("could not convert data to UTF-8 format")
-                
-                return
-            }
-            
-            do {
-                let manufacturer = try JSONDecoder().decode(GetSearchData.self, from: modifiedDataInUTF8Format)
-                
-                print("manufacturer: \(manufacturer)")
-                
-            } catch let error as NSError {
-            }
-            
-        }) { (error, errorData) in
-        }
-    }
-    */
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
