@@ -9,8 +9,6 @@
 import UIKit
 import CoreData
 
-//https://www.oreilly.com/library/view/ios-10-swift/9781491966426/ch04.html
-//https://useyourloaf.com/blog/cleaning-up-core-data-fetch-requests/
 
 class CoreDataManager {
     

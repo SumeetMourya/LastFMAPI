@@ -20,6 +20,7 @@ protocol SavedAlbumListWireFrameProtocol: class {
     static func presentSavedAlbumListModule(fromView view: AnyObject)
     
     //here your methods for communication PRESENTER -> WIREFRAME
+    func goToAlbumsDetailInformation(fromView: AnyObject, albumData: AlbumInfoItem)
     func openSearchForArtists(fromView view: AnyObject)
     func goToSearchForAlbums(fromView view: AnyObject, selectedArtistData: SearchArtistDataItem)
 
@@ -34,6 +35,7 @@ protocol SavedAlbumListPresenterProtocol: class {
     func openSearchForArtists(fromView view: AnyObject)
     func goToSearchForAlbums(fromView view: AnyObject, selectedArtistData: SearchArtistDataItem)
     func getSavedAlbum()
+    func setCurrentSelectedAlbumWith(album: SearchAlbumArtistDataItem)
 
 }
 
@@ -44,6 +46,7 @@ protocol SavedAlbumListInteractorOutputProtocol: class {
     func showActivityIndicator()
     func hideActivityIndicator()
     func hideActivityIndicatorWithError(title: String?, subtitle: String?)
+    func goToAlbumsDetailInformation(albumData: AlbumInfoItem)
 
 }
 
@@ -55,7 +58,8 @@ protocol SavedAlbumListInteractorInputProtocol: class {
     
     //here your methods for communication PRESENTER -> INTERACTOR
     func getSavedAlbum()
-    
+    func setCurrentSelectedAlbumWith(album: SearchAlbumArtistDataItem)
+
 }
 
 protocol SavedAlbumListDataManagerInputProtocol: class {
@@ -74,5 +78,6 @@ protocol SavedAlbumListLocalDataManagerInputProtocol: class {
     
     //here your methods for communication INTERACTOR -> LOCALDATAMANAGER
     func getSavedAlbum() -> [SearchAlbumArtistDataItem]
+    func getAlbumDecoded(objectNeedtoConvert: SearchAlbumArtistDataItem) -> AlbumInfoItem?
     
 }

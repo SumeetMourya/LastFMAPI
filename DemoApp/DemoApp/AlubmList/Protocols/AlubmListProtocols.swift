@@ -36,7 +36,7 @@ protocol AlubmListPresenterProtocol: class {
     //here your methods for communication VIEW -> PRESENTER
     func getData(refreshData: Bool)
     func getArtistName() -> String?
-    func setCurrentSelectedWith(albumIndex: Int)
+    func setCurrentSelectedAlbumWith(albumIndex: Int)
     
 }
 
@@ -58,7 +58,7 @@ protocol AlubmListInteractorInputProtocol: class {
     //here your methods for communication PRESENTER -> INTERACTOR
     func getData(refreshData: Bool)
     func getArtistName() -> String?
-    func setCurrentSelectedWith(albumIndex: Int)
+    func setCurrentSelectedAlbumWith(albumIndex: Int)
     
 }
 

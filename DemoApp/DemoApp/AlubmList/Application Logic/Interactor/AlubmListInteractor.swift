@@ -121,13 +121,12 @@ class AlubmListInteractor: AlubmListInteractorInputProtocol {
         return self.selectedArtistData.artistName
     }
     
-    func setCurrentSelectedWith(albumIndex: Int) {
+    func setCurrentSelectedAlbumWith(albumIndex: Int) {
         self.selectedAlbumValue = albumIndex
         
         guard var searchResultAlbumData = self.searchAlbumDataObject, (self.selectedAlbumValue != -1) else {
             return
         }
-        
 
         let dataOfSelectedAlbum = searchResultAlbumData.listOfArtistAlbum[self.selectedAlbumValue]
         let albumInfoRequest = AlbumInfoRequestParam(artistName: dataOfSelectedAlbum.artistName!, albumName: dataOfSelectedAlbum.albumName!, albumStatus: dataOfSelectedAlbum.albumSaved, artistMBID: dataOfSelectedAlbum.artistMBID!)

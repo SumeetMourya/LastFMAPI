@@ -47,4 +47,8 @@ class SavedAlbumListWireFrame: SavedAlbumListWireFrameProtocol {
         AlubmListWireFrame.presentAlubmListModule(fromView: view, selectedArtist: selectedArtistData)
     }
     
+    func goToAlbumsDetailInformation(fromView: AnyObject, albumData: AlbumInfoItem) {
+        AlubmDetailsWireFrame.presentAlubmDetailsModule(fromView: fromView, requestParam: nil, albumInfoData: albumData)
+    }
+    
 }

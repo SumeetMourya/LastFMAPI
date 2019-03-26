@@ -15,48 +15,55 @@ class AlubmDetailsInteractor: AlubmDetailsInteractorInputProtocol {
     var APIDataManager: AlubmDetailsAPIDataManagerInputProtocol?
     var localDatamanager: AlubmDetailsLocalDataManagerInputProtocol?
     var requestParam: AlbumInfoRequestParam?
+    var albumDataFromPreviewView: AlbumInfoItem?
     
-    init(requestParamValue: AlbumInfoRequestParam? = nil ) {
+    
+    init(requestParamValue: AlbumInfoRequestParam? = nil, albumInfoData: AlbumInfoItem? = nil) {
         requestParam = requestParamValue
+        albumDataFromPreviewView = albumInfoData
     }
     
     
     //MARK: AlubmDetailsInteractorInputProtocol
     
     func getAlbumName() -> String {
-        return requestParam?.albumName ?? ""
+        return requestParam?.albumName ?? (albumDataFromPreviewView?.albumName ?? "")
     }
 
     func getArtistName() -> String {
-        return requestParam?.artistName ?? ""
+        return requestParam?.artistName ?? (albumDataFromPreviewView?.artistName ?? "")
     }
 
     func getAlbumInformationWithAPI() {
         
-        self.presenter?.showActivityIndicator()
-        
-        DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async { [weak self] in
+        if let albumDataAvailable = albumDataFromPreviewView {
+            self.presenter?.updateAlbumInfoDetailView(albumInforData: albumDataAvailable)
+        } else {
+            self.presenter?.showActivityIndicator()
             
-            guard let wealSelf = self, let requestParamData = self?.requestParam else {
-                self?.presenter?.hideActivityIndicatorWithError(title: "Technical issue", subtitle: "")
-                return
-            }
-            
-            let requestURLValue = API.urlArtistsAlbumDataRequest(artistName: requestParamData.artistName, albumName: requestParamData.albumName)
-            
-            wealSelf.APIDataManager?.loadDataForURL(url: requestURLValue, onSuccess: { (albumInfoDataFound, succeedCode) in
-                wealSelf.presenter?.hideActivityIndicator()
+            DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async { [weak self] in
                 
-                var albumInfoData = albumInfoDataFound
-                if let albumRequestParam = wealSelf.requestParam {
-                    albumInfoData.updateAlbumSaveStatus(value: albumRequestParam.albumStatus)
+                guard let wealSelf = self, let requestParamData = self?.requestParam else {
+                    self?.presenter?.hideActivityIndicatorWithError(title: "Technical issue", subtitle: "")
+                    return
                 }
-                wealSelf.presenter?.updateAlbumInfoDetailView(albumInforData: albumInfoData)
-                                
-            }, onFailure: { (error, errorcodeData) in
-                wealSelf.presenter?.errorInLoadingDataWith(error: error, errorCode: errorcodeData)
-                wealSelf.presenter?.hideActivityIndicatorWithError(title: "Technical issue", subtitle: "")
-            })
+                
+                let requestURLValue = API.urlArtistsAlbumDataRequest(artistName: requestParamData.artistName, albumName: requestParamData.albumName)
+                
+                wealSelf.APIDataManager?.loadDataForURL(url: requestURLValue, onSuccess: { (albumInfoDataFound, succeedCode) in
+                    wealSelf.presenter?.hideActivityIndicator()
+                    
+                    var albumInfoData = albumInfoDataFound
+                    if let albumRequestParam = wealSelf.requestParam {
+                        albumInfoData.updateAlbumSaveStatus(value: albumRequestParam.albumStatus)
+                    }
+                    wealSelf.presenter?.updateAlbumInfoDetailView(albumInforData: albumInfoData)
+                    
+                }, onFailure: { (error, errorcodeData) in
+                    wealSelf.presenter?.errorInLoadingDataWith(error: error, errorCode: errorcodeData)
+                    wealSelf.presenter?.hideActivityIndicatorWithError(title: "Technical issue", subtitle: "")
+                })
+            }
         }
         
     }

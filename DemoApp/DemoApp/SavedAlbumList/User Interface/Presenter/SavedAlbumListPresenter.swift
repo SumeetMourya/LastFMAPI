@@ -32,6 +32,11 @@ class SavedAlbumListPresenter: SavedAlbumListPresenterProtocol, SavedAlbumListIn
         self.interactor?.getSavedAlbum()
     }
     
+    func setCurrentSelectedAlbumWith(album: SearchAlbumArtistDataItem) {
+        self.interactor?.setCurrentSelectedAlbumWith(album: album)
+    }
+
+    
     //MARK : SavedAlbumListInteractorOutputProtocol Methods
     
     func showSavedAlbum(listOfAlbums: [SearchAlbumArtistDataItem]) {        
@@ -58,4 +63,8 @@ class SavedAlbumListPresenter: SavedAlbumListPresenterProtocol, SavedAlbumListIn
         self.view?.hideActivityIndicatorWithError(title: title, subtitle: subtitle)
     }
 
+    func goToAlbumsDetailInformation(albumData: AlbumInfoItem) {
+        self.wireFrame?.goToAlbumsDetailInformation(fromView: self.view!, albumData: albumData)
+
+    }
 }

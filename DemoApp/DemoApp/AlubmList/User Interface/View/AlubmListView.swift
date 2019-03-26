@@ -160,9 +160,7 @@ class AlubmListViewController: UIViewController, AlubmListViewProtocol {
 extension AlubmListViewController: UICollectionViewDelegate {
    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.presenter?.setCurrentSelectedWith(albumIndex: indexPath.row)
-//        let dataOfSelectedAlbum = listOfSearchAlbum[indexPath.row]
-//        self.presenter?.goToSearchAlbumsDetail(fromView: self, requestParam: AlbumInfoRequestParam(artistName: dataOfSelectedAlbum.artistName!, albumName: dataOfSelectedAlbum.albumName!, albumStatus: dataOfSelectedAlbum.albumSaved, artistMBID: dataOfSelectedAlbum.artistMBID!))
+        self.presenter?.setCurrentSelectedAlbumWith(albumIndex: indexPath.row)
     }
     
 }

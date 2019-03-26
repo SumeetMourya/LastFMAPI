@@ -27,4 +27,11 @@ class SavedAlbumListInteractor: SavedAlbumListInteractorInputProtocol {
         self.presenter?.showSavedAlbum(listOfAlbums: listOfAlbums)
     }
 
+    func setCurrentSelectedAlbumWith(album: SearchAlbumArtistDataItem) {
+        
+        if let dataForNextScreen = self.localDatamanager?.getAlbumDecoded(objectNeedtoConvert: album) {
+            self.presenter?.goToAlbumsDetailInformation(albumData: dataForNextScreen)
+        }
+
+    }
 }

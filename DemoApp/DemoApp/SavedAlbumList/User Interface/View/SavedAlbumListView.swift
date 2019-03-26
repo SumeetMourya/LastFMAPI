@@ -49,14 +49,16 @@ class SavedAlbumListViewController: UIViewController, SavedAlbumListViewProtocol
     func showSavedAlbum(listOfAlbums: [SearchAlbumArtistDataItem]) {
         listOfAlbumsData = listOfAlbums
         DispatchQueue.main.async() {
+            self.statusText.isHidden = self.listOfAlbumsData.count > 0
+            self.cvSavedAlbumList.isHidden = self.listOfAlbumsData.count <= 0
             self.cvSavedAlbumList.reloadData()
         }
     }
 
     func hideActivityIndicatorWithError(title: String?, subtitle: String?) {
-//        self.lblErrorText.text = title
-//        self.tblvTrackList.isHidden = true
-//        self.lblErrorText.isHidden = false
+        statusText.text = title
+        statusText.isHidden = false
+        cvSavedAlbumList.isHidden = true
     }
 
 
@@ -67,7 +69,7 @@ class SavedAlbumListViewController: UIViewController, SavedAlbumListViewProtocol
 extension SavedAlbumListViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        self.presenter?.setCurrentSelectedWith(albumIndex: indexPath.row)
+        self.presenter?.setCurrentSelectedAlbumWith(album: listOfAlbumsData[indexPath.row])
     }
     
 }

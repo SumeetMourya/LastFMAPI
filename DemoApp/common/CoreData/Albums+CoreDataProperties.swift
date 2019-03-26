@@ -34,21 +34,21 @@ extension Albums {
     @nonobjc public class func fetchRequestWith(artistMBID: String, artistName: String, albumName: String) -> NSFetchRequest<Albums> {
         let request: NSFetchRequest<Albums> = Albums.fetchRequest()
         request.predicate = NSPredicate(format: "artistMBID == %@ AND artistName == %@ AND albumName == %@", artistMBID, artistName, albumName)
-        request.sortDescriptors = [NSSortDescriptor(key: "artistMBID", ascending: true)]
+        request.sortDescriptors = [NSSortDescriptor(key: "albumName", ascending: true)]
         return request
     }
 
     @nonobjc public class func fetchRequestWith(artistMBID: String, artistName: String) -> NSFetchRequest<Albums> {
         let request: NSFetchRequest<Albums> = Albums.fetchRequest()
         request.predicate = NSPredicate(format: "artistMBID == %@ AND artistName == %@", artistMBID, artistName)
-        request.sortDescriptors = [NSSortDescriptor(key: "artistMBID", ascending: true)]
+        request.sortDescriptors = [NSSortDescriptor(key: "albumName", ascending: true)]
         return request
     }
 
     @nonobjc public class func fetchRequestWith(artistName: String, albumName: String) -> NSFetchRequest<Albums> {
         let request: NSFetchRequest<Albums> = Albums.fetchRequest()
         request.predicate = NSPredicate(format: "artistName == %@ AND albumName == %@", artistName, albumName)
-        request.sortDescriptors = [NSSortDescriptor(key: "artistMBID", ascending: true)]
+        request.sortDescriptors = [NSSortDescriptor(key: "albumName", ascending: true)]
         return request
     }
     
@@ -62,7 +62,7 @@ extension Albums {
     @nonobjc public class func fetchRequestResultWith(artistName: String, albumName: String) -> NSFetchRequest<NSFetchRequestResult> {
         let request: NSFetchRequest<NSFetchRequestResult> = Albums.fetchRequest()
         request.predicate = NSPredicate(format: "artistName == %@ AND albumName == %@", artistName, albumName)
-        request.sortDescriptors = [NSSortDescriptor(key: "artistMBID", ascending: true)]
+        request.sortDescriptors = [NSSortDescriptor(key: "albumName", ascending: true)]
         return request
     }
 

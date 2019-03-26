@@ -23,7 +23,7 @@ class AlubmDetailsWireFrame: AlubmDetailsWireFrameProtocol {
         }
                 
         let presenter: AlubmDetailsPresenterProtocol & AlubmDetailsInteractorOutputProtocol = AlubmDetailsPresenter()
-        let interactor: AlubmDetailsInteractorInputProtocol = AlubmDetailsInteractor(requestParamValue: requestParam)
+        let interactor: AlubmDetailsInteractorInputProtocol = AlubmDetailsInteractor(requestParamValue: requestParam, albumInfoData: albumInfoData)
         let APIDataManager: AlubmDetailsAPIDataManagerInputProtocol = AlubmDetailsAPIDataManager()
         let localDataManager: AlubmDetailsLocalDataManagerInputProtocol = AlubmDetailsLocalDataManager(coreDataManager: CoreDataManager.sharedDatabaseManager)
         let wireFrame: AlubmDetailsWireFrameProtocol = AlubmDetailsWireFrame()

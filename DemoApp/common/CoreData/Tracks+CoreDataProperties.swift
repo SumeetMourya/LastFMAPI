@@ -27,19 +27,19 @@ extension Tracks {
     @nonobjc public class func fetchRequestWith(artistName: String, albumName: String) -> NSFetchRequest<Tracks> {
         let request: NSFetchRequest<Tracks> = Tracks.fetchRequest()
         request.predicate = NSPredicate(format: "artistName == %@ AND albumName == %@", artistName, albumName)
-        request.sortDescriptors = [NSSortDescriptor(key: "artistMBID", ascending: true)]
+        request.sortDescriptors = [NSSortDescriptor(key: "trackOrder", ascending: true)]
         return request
     }
     
     @nonobjc public class func fetchRequestResultWith(albumID: String) -> NSFetchRequest<NSFetchRequestResult> {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Tracks")
         request.predicate = NSPredicate(format: "albumMBID == %@ ", albumID)
-        request.sortDescriptors = [NSSortDescriptor(key: "trackOrder", ascending: true)]
+//        request.sortDescriptors = [NSSortDescriptor(key: "trackOrder", ascending: true)]
         return request
     }
 
     @nonobjc public class func fetchRequestResultWith(artistName: String, albumName: String) -> NSFetchRequest<NSFetchRequestResult> {
-        let request: NSFetchRequest<NSFetchRequestResult> = Tracks.fetchRequest()
+        let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest<NSFetchRequestResult>(entityName: "Tracks")
         request.predicate = NSPredicate(format: "artistName == %@ AND albumName == %@", artistName, albumName)
         return request
     }

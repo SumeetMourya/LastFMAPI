@@ -27,8 +27,8 @@ class AlubmListPresenter: AlubmListPresenterProtocol, AlubmListInteractorOutputP
         return self.interactor?.getArtistName()
     }
     
-    func setCurrentSelectedWith(albumIndex: Int) {
-        self.interactor?.setCurrentSelectedWith(albumIndex: albumIndex)
+    func setCurrentSelectedAlbumWith(albumIndex: Int) {
+        self.interactor?.setCurrentSelectedAlbumWith(albumIndex: albumIndex)
     }
     
     

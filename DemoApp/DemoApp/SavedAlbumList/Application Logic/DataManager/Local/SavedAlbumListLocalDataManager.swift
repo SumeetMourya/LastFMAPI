@@ -58,5 +58,89 @@ class SavedAlbumListLocalDataManager: SavedAlbumListLocalDataManagerInputProtoco
         return albums
     }
     
+    func getAlbumDecoded(objectNeedtoConvert: SearchAlbumArtistDataItem) -> AlbumInfoItem? {
+        
+        guard let albumNameValue = objectNeedtoConvert.albumName, let artistNameValue = objectNeedtoConvert.artistName else {
+            return nil
+        }
+
+        let albumFound = coreDataManagerObj.fetchData(Albums.fetchRequestWith(artistName: artistNameValue, albumName: albumNameValue))
+        let tracks = self.getTracksDataInString(artistName: artistNameValue, albumName: albumNameValue)
+       
+        if albumFound.count == 1 {
+            let albumValue = albumFound[0]
+            
+            let albumJSON = """
+            {
+            "album": {
+            "name": "\(albumValue.albumName ?? "")",
+            "artist": "\(albumValue.artistName ?? "")",
+            "url": "\(albumValue.albumURL ?? "")",
+            "image": [
+            {
+            "#text": "\(albumValue.albumCoverSmallImageURL ?? "")",
+            "size": "medium"
+            },
+            {
+            "#text": "\(albumValue.albumCoverLargeImageURL ?? "")",
+            "size": "extralarge"
+            }
+            ],
+            "listeners": "\(albumValue.albumListenersCount ?? "")",
+            "playcount": "\(albumValue.albumPlayCount)",
+            "tracks": {
+            "track":
+            [
+            \(tracks)
+            ]
+            },
+            }
+            }
+            """
+            
+            let albumJSONValue = albumJSON.data(using: .utf8)!
+            let decoder = JSONDecoder()
+            if var albumDecoder = try? decoder.decode(AlbumInfoItem.self, from: albumJSONValue) {
+                albumDecoder.updateAlbumSaveStatus(value: true)
+                return albumDecoder
+            } else {
+                return nil
+            }
+
+        } else {
+            return nil
+        }
+
+    }
+    
+    
+    func getTracksDataInString(artistName: String, albumName: String) -> String {
+        
+        let albumTracks = coreDataManagerObj.fetchData(Tracks.fetchRequestWith(artistName: artistName, albumName: albumName))
+        
+        var trackStringValue: String = ""
+        
+        for index in 0..<albumTracks.count {
+           
+            let track = albumTracks[index]
+            let trackStringValueUpdate = """
+            {
+            "name": "\(track.trackName ?? "")",
+            "url": "\(track.trackURL ?? "")",
+            "duration": "\(track.trackDuration ?? "")",
+            "@attr": {
+                "rank": "\(track.trackOrder)"
+            }
+            }
+            """
+            trackStringValue = trackStringValue + trackStringValueUpdate + (index == (albumTracks.count - 1) ? "" : ",")
+        }
+        
+        return trackStringValue
+//        } else {
+//            return ""
+//        }
+        
+    }
     
 }
