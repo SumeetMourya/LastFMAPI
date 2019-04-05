@@ -47,7 +47,7 @@ class AlubmListViewController: UIViewController, AlubmListViewProtocol {
         }
         self.presenter?.getData(refreshData: true)
         
-        self.cvAlbumListForArtist.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 10, right: 0)
+        self.cvAlbumListForArtist.contentInset = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
     }
     
     override func viewDidAppear(_ animated: Bool) {

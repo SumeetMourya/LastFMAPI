@@ -36,7 +36,7 @@ class SavedAlbumListViewController: UIViewController, SavedAlbumListViewProtocol
         }
         
         self.presenter?.getSavedAlbum()
-        self.cvSavedAlbumList.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 10, right: 0)
+        self.cvSavedAlbumList.contentInset = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
     }
     
     //MARK: ArtistSearchScreenDelegate Methods
