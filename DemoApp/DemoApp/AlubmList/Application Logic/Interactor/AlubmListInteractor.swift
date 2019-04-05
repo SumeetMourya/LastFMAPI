@@ -13,12 +13,13 @@ class AlubmListInteractor: AlubmListInteractorInputProtocol {
     weak var presenter: AlubmListInteractorOutputProtocol?
     var APIDataManager: AlubmListAPIDataManagerInputProtocol?
     var localDatamanager: AlubmListLocalDataManagerInputProtocol?
-    var selectedAlbumValue: Int = -1
-
+    
+    private var selectedAlbumValue: Int = -1
     private let pageSize: Int = 25
     private var searchAlbumDataObject: SearchAlbumListData?
     private var selectedArtistData: SearchArtistDataItem
-    
+    private var oneRequestAlreadyExecuting: Bool = false
+
     init(artistData: SearchArtistDataItem) {
         self.selectedArtistData = artistData
         NotificationCenter.default.addObserver(self,
@@ -46,11 +47,15 @@ class AlubmListInteractor: AlubmListInteractorInputProtocol {
         
     func getData(refreshData: Bool) {
         
+        if (self.oneRequestAlreadyExecuting) {
+            return
+        }
+
         if (refreshData) {
             self.searchAlbumDataObject = nil
         }
         
-        DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async { [weak self] in
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async { [weak self] in
             
             guard let wealSelf = self else {
                 return
@@ -77,7 +82,7 @@ class AlubmListInteractor: AlubmListInteractorInputProtocol {
                 requestURLValue = API.urlSearchAlbumForArtistRequest(artistName: artistName, pageIndex: (currentLoadedPageIndex + 1), pageLimit: wealSelf.pageSize)
             }
             
-            
+            wealSelf.oneRequestAlreadyExecuting = true
             wealSelf.APIDataManager?.loadDataForURL(url: requestURLValue, onSuccess: { (searchAlbumDataFound, succeedCode) in
                 
                 var searchAlbumData = searchAlbumDataFound
@@ -104,13 +109,16 @@ class AlubmListInteractor: AlubmListInteractorInputProtocol {
                 }
                 
                 guard let getListOfAlbum = wealSelf.searchAlbumDataObject?.listOfArtistAlbum else {
+                    wealSelf.oneRequestAlreadyExecuting = false
                     wealSelf.presenter?.updateAlbumSearchList(searchAlbumData: [SearchAlbumArtistDataItem](), needToUpdate: false, needToShowEmpty: false)
                     return
                 }
                 
+                wealSelf.oneRequestAlreadyExecuting = false
                 wealSelf.presenter?.updateAlbumSearchList(searchAlbumData: getListOfAlbum, needToUpdate: (searchAlbumData.listOfArtistAlbum.count > 0) ? true : false, needToShowEmpty: searchListIsEmpty)
                 
             }, onFailure: { (error, errorcodeData) in
+                wealSelf.oneRequestAlreadyExecuting = false
                 wealSelf.presenter?.errorInLoadingDataWith(error: error, errorCode: errorcodeData)
             })
         }

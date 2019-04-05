@@ -16,13 +16,18 @@ class SearchListInteractor: SearchListInteractorInputProtocol {
 
     private let pageSize: Int = 25
     private var searchArtistDataObject: GetSearchData?
-    
+    private var oneRequestAlreadyExecuting: Bool = false
+
     init() {}
     
     
     //MARK: SearchListInteractorInputProtocol Methods
     
     func getData(refreshData: Bool, artistName: String) {
+        
+        if (self.oneRequestAlreadyExecuting) {
+            return
+        }
         
         guard (artistName.count > 0) else {
             self.presenter?.updateArtistSearchList(searchArtistData: [SearchArtistDataItem](), needToUpdate: false, needToShowEmpty: true)
@@ -33,7 +38,7 @@ class SearchListInteractor: SearchListInteractorInputProtocol {
             self.searchArtistDataObject = nil
         }
         
-        DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async { [weak self] in
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async { [weak self] in
             
             guard let wealSelf = self else {
                 return
@@ -52,7 +57,7 @@ class SearchListInteractor: SearchListInteractorInputProtocol {
 
             }
             
-
+            wealSelf.oneRequestAlreadyExecuting = true
             wealSelf.APIDataManager?.loadDataForURL(url: requestURLValue, onSuccess: { (searchArtistData, succeedCode) in
                 
                 if searchArtistData.pageObject?.currentPageIndex == "1" {
@@ -67,13 +72,16 @@ class SearchListInteractor: SearchListInteractorInputProtocol {
                 }
                 
                 guard let getListOfSeasrchArtists = wealSelf.searchArtistDataObject?.listOfArtists else {
+                    wealSelf.oneRequestAlreadyExecuting = false
                     wealSelf.presenter?.updateArtistSearchList(searchArtistData: [SearchArtistDataItem](), needToUpdate: false, needToShowEmpty: false)
                     return
                 }
                 
+                wealSelf.oneRequestAlreadyExecuting = false
                 wealSelf.presenter?.updateArtistSearchList(searchArtistData: getListOfSeasrchArtists, needToUpdate: (searchArtistData.listOfArtists.count > 0) ? true : false, needToShowEmpty: searchListIsEmpty)
                 
             }, onFailure: { (error, errorcodeData) in
+                wealSelf.oneRequestAlreadyExecuting = false
                 wealSelf.presenter?.errorInLoadingDataWith(error: error, errorCode: errorcodeData)
             })
         }

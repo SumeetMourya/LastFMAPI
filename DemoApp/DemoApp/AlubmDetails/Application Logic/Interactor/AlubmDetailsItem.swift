@@ -32,7 +32,11 @@ struct AlbumTrackItem: Decodable {
         
         let container = try decoder.container(keyedBy: TrackDataKeys.self)
         
-        self.trackName = try? container.decode(String.self, forKey: .name)
+        if let trackNameValue = try? container.decode(String.self, forKey: .name) {
+            self.trackName = trackNameValue.replacingOccurrences(of: "\\", with: "\\\\")
+        } else {
+            self.trackName = ""
+        }
         self.trackURL = try? container.decode(String.self, forKey: .url)
         self.trackDuration = try? container.decode(String.self, forKey: .duration)
         

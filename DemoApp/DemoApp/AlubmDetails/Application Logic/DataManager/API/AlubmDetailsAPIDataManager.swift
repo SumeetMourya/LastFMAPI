@@ -12,7 +12,7 @@ import Reachability
 
 class AlubmDetailsAPIDataManager: AlubmDetailsAPIDataManagerInputProtocol {
     
-    let reachability = Reachability()
+    private let reachability = Reachability()
 
     init() {}
     

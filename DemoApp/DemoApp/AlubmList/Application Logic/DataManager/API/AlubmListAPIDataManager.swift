@@ -13,7 +13,7 @@ import Alamofire
 
 class AlubmListAPIDataManager: AlubmListAPIDataManagerInputProtocol {
 
-    let reachability = Reachability()
+    private let reachability = Reachability()
 
     init() {}
 

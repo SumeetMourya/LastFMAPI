@@ -12,7 +12,8 @@ import UIKit
 class SavedAlbumListViewController: UIViewController, SavedAlbumListViewProtocol, ArtistSearchScreenDelegate {
     
     var presenter: SavedAlbumListPresenterProtocol?
-    var listOfAlbumsData = [SearchAlbumArtistDataItem]()
+    
+    private var listOfAlbumsData = [SearchAlbumArtistDataItem]()
     
     @IBOutlet var cvSavedAlbumList: UICollectionView!
     @IBOutlet var statusText: UILabel!
@@ -53,9 +54,10 @@ class SavedAlbumListViewController: UIViewController, SavedAlbumListViewProtocol
     //MARK: SavedAlbumListViewProtocol Methods
     
     func showSavedAlbum(listOfAlbums: [SearchAlbumArtistDataItem]) {
-        self.cvSavedAlbumList.es.stopPullToRefresh()
         listOfAlbumsData = listOfAlbums
+
         DispatchQueue.main.async() {
+            self.cvSavedAlbumList.es.stopPullToRefresh()
             self.statusText.isHidden = self.listOfAlbumsData.count > 0
             self.cvSavedAlbumList.isHidden = self.listOfAlbumsData.count <= 0
             self.cvSavedAlbumList.reloadData()

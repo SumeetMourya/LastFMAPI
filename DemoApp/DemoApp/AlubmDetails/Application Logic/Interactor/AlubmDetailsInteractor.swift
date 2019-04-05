@@ -14,8 +14,9 @@ class AlubmDetailsInteractor: AlubmDetailsInteractorInputProtocol {
     weak var presenter: AlubmDetailsInteractorOutputProtocol?
     var APIDataManager: AlubmDetailsAPIDataManagerInputProtocol?
     var localDatamanager: AlubmDetailsLocalDataManagerInputProtocol?
-    var requestParam: AlbumInfoRequestParam?
-    var albumDataFromPreviewView: AlbumInfoItem?
+    
+    private var requestParam: AlbumInfoRequestParam?
+    private var albumDataFromPreviewView: AlbumInfoItem?
     
     
     init(requestParamValue: AlbumInfoRequestParam? = nil, albumInfoData: AlbumInfoItem? = nil) {
@@ -41,7 +42,7 @@ class AlubmDetailsInteractor: AlubmDetailsInteractorInputProtocol {
         } else {
             self.presenter?.showActivityIndicator()
             
-            DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async { [weak self] in
+            DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async { [weak self] in
                 
                 guard let wealSelf = self, let requestParamData = self?.requestParam else {
                     self?.presenter?.hideActivityIndicatorWithError(title: "Technical issue", subtitle: "")

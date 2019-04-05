@@ -14,17 +14,38 @@ class SavedAlbumListInteractor: SavedAlbumListInteractorInputProtocol {
     weak var presenter: SavedAlbumListInteractorOutputProtocol?
     var APIDataManager: SavedAlbumListAPIDataManagerInputProtocol?
     var localDatamanager: SavedAlbumListLocalDataManagerInputProtocol?
+   
+    private var oneRequestAlreadyExecuting: Bool = false
 
     init() {    }
 
 
     func getSavedAlbum() {
-        self.presenter?.showActivityIndicator()
-        guard let listOfAlbums = self.localDatamanager?.getSavedAlbum() else {
+        
+        if (self.oneRequestAlreadyExecuting) {
             return
         }
-        self.presenter?.hideActivityIndicator()
-        self.presenter?.showSavedAlbum(listOfAlbums: listOfAlbums)
+        
+        self.presenter?.showActivityIndicator()
+
+        self.oneRequestAlreadyExecuting = true
+       
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.userInteractive).async { [weak self] in
+            
+            guard let wealSelf = self else {
+                return
+            }
+            
+            guard let listOfAlbums = wealSelf.localDatamanager?.getSavedAlbum() else {
+                wealSelf.oneRequestAlreadyExecuting = false
+                wealSelf.presenter?.hideActivityIndicator()
+                return
+            }
+            
+            wealSelf.oneRequestAlreadyExecuting = false
+            wealSelf.presenter?.hideActivityIndicator()
+            wealSelf.presenter?.showSavedAlbum(listOfAlbums: listOfAlbums)
+        }
     }
 
     func setCurrentSelectedAlbumWith(album: SearchAlbumArtistDataItem) {

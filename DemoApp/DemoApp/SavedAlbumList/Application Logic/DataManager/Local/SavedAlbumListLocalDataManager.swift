@@ -123,20 +123,22 @@ class SavedAlbumListLocalDataManager: SavedAlbumListLocalDataManagerInputProtoco
             [
             \(tracks)
             ]
-            },
+            }
             }
             }
             """
-            
-            let albumJSONValue = albumJSON.data(using: .utf8)!
-            let decoder = JSONDecoder()
-            if var albumDecoder = try? decoder.decode(AlbumInfoItem.self, from: albumJSONValue) {
-                albumDecoder.updateAlbumSaveStatus(value: true)
-                return albumDecoder
+
+            if let albumJSONValue = albumJSON.replacingOccurrences(of: "\n", with: "").data(using: .utf8) {
+                let decoder = JSONDecoder()
+                if var albumDecoder = try? decoder.decode(AlbumInfoItem.self, from: albumJSONValue) {
+                    albumDecoder.updateAlbumSaveStatus(value: true)
+                    return albumDecoder
+                } else {
+                    return nil
+                }
             } else {
                 return nil
             }
-
         } else {
             return nil
         }

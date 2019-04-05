@@ -13,7 +13,7 @@ import Alamofire
 
 class SearchListAPIDataManager: SearchListAPIDataManagerInputProtocol {
  
-    let reachability = Reachability()
+    private let reachability = Reachability()
 
     init() {}
     

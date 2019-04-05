@@ -11,11 +11,12 @@ import UIKit
 
 class SearchListViewController: UIViewController, SearchListViewProtocol {
    
-    let addInfiniteScrollingViaESPullToRefresh: Bool = true
 
     var presenter: SearchListPresenterProtocol?
-    var listOfSearchArtists: [SearchArtistDataItem] = [SearchArtistDataItem]()
-    var artistNameForSearch: String = ""
+    
+    private let addInfiniteScrollingViaESPullToRefresh: Bool = true
+    private var listOfSearchArtists: [SearchArtistDataItem] = [SearchArtistDataItem]()
+    private var artistNameForSearch: String = ""
 
     @IBOutlet var layoutiPhoneXBottomManageViewHeight: NSLayoutConstraint!
     @IBOutlet var layoutErrorViewHeight: NSLayoutConstraint!
@@ -51,11 +52,7 @@ class SearchListViewController: UIViewController, SearchListViewProtocol {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-//        let statusHeight = UIApplication.shared.statusBarFrame.height
-//        self.layoutHeaderViewTopPin.constant = statusHeight > 20 ? 0.0 : statusHeight
-//        layoutListHeight.constant = modeOfViewArticleList ? CGFloat(20 + (60 * chapterData.articles.count)) : 0
-        
+                
         layoutListViewTopPin.constant = self.topbarHeight
 
     }

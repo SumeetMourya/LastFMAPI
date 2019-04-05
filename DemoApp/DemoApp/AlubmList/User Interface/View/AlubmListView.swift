@@ -14,7 +14,8 @@ import ESPullToRefresh
 class AlubmListViewController: UIViewController, AlubmListViewProtocol {
     
     var presenter: AlubmListPresenterProtocol?
-    var listOfSearchAlbum: [SearchAlbumArtistDataItem] = [SearchAlbumArtistDataItem]()
+    
+    private var listOfSearchAlbum: [SearchAlbumArtistDataItem] = [SearchAlbumArtistDataItem]()
     
     @IBOutlet var cvAlbumListForArtist: UICollectionView!
     @IBOutlet var statusText: UILabel!
