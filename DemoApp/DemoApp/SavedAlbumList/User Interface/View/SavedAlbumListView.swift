@@ -27,16 +27,18 @@ class SavedAlbumListViewController: UIViewController, SavedAlbumListViewProtocol
         self.title = "Saved Albums List"
         
         cvSavedAlbumList.delaysContentTouches = false
-        cvSavedAlbumList.setCollectionViewLayout(UICollectionViewFlowLayout(), animated: false)
+        if let layout = cvSavedAlbumList.collectionViewLayout as? AlbumCellLayout {
+            layout.delegate = self
+        }
         
-         cvSavedAlbumList.es.addPullToRefresh { [unowned self] in
+        cvSavedAlbumList.es.addPullToRefresh { [unowned self] in
             self.presenter?.getSavedAlbum()
-         }
-
+        }
+        
         self.presenter?.getSavedAlbum()
         self.cvSavedAlbumList.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 10, right: 0)
     }
-
+    
     //MARK: ArtistSearchScreenDelegate Methods
 
     func ArtistSearchDismissed() {
@@ -51,6 +53,7 @@ class SavedAlbumListViewController: UIViewController, SavedAlbumListViewProtocol
     //MARK: SavedAlbumListViewProtocol Methods
     
     func showSavedAlbum(listOfAlbums: [SearchAlbumArtistDataItem]) {
+        self.cvSavedAlbumList.es.stopPullToRefresh()
         listOfAlbumsData = listOfAlbums
         DispatchQueue.main.async() {
             self.statusText.isHidden = self.listOfAlbumsData.count > 0
@@ -97,35 +100,27 @@ extension SavedAlbumListViewController: UICollectionViewDataSource {
         return cell
     }
     
-    
 }
 
-// MARK: UICollectionViewDelegateFlowLayout methods
+// MARK: AlbumCellLayoutDelegate methods
 
-extension SavedAlbumListViewController: UICollectionViewDelegateFlowLayout {
+extension SavedAlbumListViewController: AlbumCellLayoutDelegate {
     
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(collectionView: UICollectionView,
+                        heightForAnnotationAtIndexPath indexPath: IndexPath,
+                        withWidth: CGFloat) -> CGFloat {
         
-        return CGSize(width: (collectionView.frame.width - 45) / 2, height: 200)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 15.0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 15.0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        var height: CGFloat = 0
+        if let albumName =  listOfAlbumsData[indexPath.row].albumName {
+            height = height + albumName.heightForWidth(width: withWidth, font: UIFont(name: "HelveticaNeue", size: 13)!)
+        }
+
+        if let albumArtist =  listOfAlbumsData[indexPath.row].artistName {
+            height = height + albumArtist.heightForWidth(width: withWidth, font: UIFont(name: "HelveticaNeue-Medium", size: 13)!)
+        }
         
-        return UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+        return height
     }
+    
     
 }
-
-

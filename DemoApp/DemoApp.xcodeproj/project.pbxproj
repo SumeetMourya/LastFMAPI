@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		D6CDA60E5F3E81A9CFB13ACA /* Pods_DemoApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFB8D14F57973240B9C8DD9C /* Pods_DemoApp.framework */; };
+		E1AA986A22548D7A0063F789 /* AlbumCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AA986922548D7A0063F789 /* AlbumCellLayout.swift */; };
+		E1AA986C2254A8400063F789 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AA986B2254A8400063F789 /* StringExtension.swift */; };
 		E1BABACB224630A6003BC361 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BABACA224630A6003BC361 /* AppDelegate.swift */; };
 		E1BABAD0224630A6003BC361 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1BABACE224630A6003BC361 /* Main.storyboard */; };
 		E1BABAD5224630A8003BC361 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1BABAD4224630A8003BC361 /* Assets.xcassets */; };
@@ -66,6 +68,8 @@
 		6933CD04436C73B3E739650D /* Pods-DemoApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoApp.debug.xcconfig"; path = "Target Support Files/Pods-DemoApp/Pods-DemoApp.debug.xcconfig"; sourceTree = "<group>"; };
 		A08AAA19D17B1F1FCF024E16 /* Pods-DemoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoApp.release.xcconfig"; path = "Target Support Files/Pods-DemoApp/Pods-DemoApp.release.xcconfig"; sourceTree = "<group>"; };
 		AFB8D14F57973240B9C8DD9C /* Pods_DemoApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1AA986922548D7A0063F789 /* AlbumCellLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCellLayout.swift; sourceTree = "<group>"; };
+		E1AA986B2254A8400063F789 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		E1BABAC7224630A6003BC361 /* DemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1BABACA224630A6003BC361 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E1BABACF224630A6003BC361 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -497,10 +501,12 @@
 			isa = PBXGroup;
 			children = (
 				E1BABB35224662F6003BC361 /* BaseTableCell.swift */,
+				E1AA986922548D7A0063F789 /* AlbumCellLayout.swift */,
 				E1BABB3722466310003BC361 /* TableCellLayer.swift */,
 				E1BABB392246632C003BC361 /* DeviceDetection.swift */,
 				E1BABB4022476A45003BC361 /* LoaderView.swift */,
 				E1BABB4422479C51003BC361 /* NSLayoutConstraint+Utils.swift */,
+				E1AA986B2254A8400063F789 /* StringExtension.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -749,6 +755,7 @@
 				E1C203F922498FB4005CD6FE /* Albums+CoreDataClass.swift in Sources */,
 				E1BABB2F22463B1E003BC361 /* AlubmDetailsView.swift in Sources */,
 				E1BABB36224662F6003BC361 /* BaseTableCell.swift in Sources */,
+				E1AA986C2254A8400063F789 /* StringExtension.swift in Sources */,
 				E1BABB1E22463B1E003BC361 /* SearchListWireFrame.swift in Sources */,
 				E1BABB2022463B1E003BC361 /* AlubmListLocalDataManager.swift in Sources */,
 				E1BABB5C2247A028003BC361 /* SavedAlbumListItem.swift in Sources */,
@@ -782,6 +789,7 @@
 				E1BABB5E2247A028003BC361 /* SavedAlbumListPresenter.swift in Sources */,
 				E1BABB2A22463B1E003BC361 /* AlubmDetailsItem.swift in Sources */,
 				E1C203FC22498FB4005CD6FE /* Tracks+CoreDataProperties.swift in Sources */,
+				E1AA986A22548D7A0063F789 /* AlbumCellLayout.swift in Sources */,
 				E1BABB2B22463B1E003BC361 /* AlubmDetailsInteractor.swift in Sources */,
 				E1BABB2422463B1E003BC361 /* AlubmListProtocols.swift in Sources */,
 				E1BABB5A2247A028003BC361 /* SavedAlbumListAPIDataManager.swift in Sources */,

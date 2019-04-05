@@ -33,11 +33,11 @@ class AlubmListViewController: UIViewController, AlubmListViewProtocol {
         }
         
         cvAlbumListForArtist.delaysContentTouches = false
-        cvAlbumListForArtist.setCollectionViewLayout(UICollectionViewFlowLayout(), animated: false)
+//        cvAlbumListForArtist.setCollectionViewLayout(UICollectionViewFlowLayout(), animated: false)
         
-//        if let flowLayout = cvAlbumListForArtist.collectionViewLayout as? UICollectionViewFlowLayout {
-//            flowLayout.estimatedItemSize = CGSize(width: 1,height: 1)
-//        }
+        if let layout = cvAlbumListForArtist.collectionViewLayout as? AlbumCellLayout {
+            layout.delegate = self
+        }
         
         cvAlbumListForArtist.es.addPullToRefresh { [unowned self] in
             self.presenter?.getData(refreshData: true)
@@ -187,32 +187,25 @@ extension AlubmListViewController: UICollectionViewDataSource {
     
 }
 
-// MARK: UICollectionViewDelegateFlowLayout methods
+// MARK: AlbumCellLayoutDelegate methods
 
-extension AlubmListViewController: UICollectionViewDelegateFlowLayout {
-   
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+extension AlubmListViewController: AlbumCellLayoutDelegate {
+    
+    func collectionView(collectionView: UICollectionView,
+                        heightForAnnotationAtIndexPath indexPath: IndexPath,
+                        withWidth: CGFloat) -> CGFloat {
         
-        return CGSize(width: (collectionView.frame.width - 45) / 2, height: 200)
+        var height: CGFloat = 0
+        if let albumName =  listOfSearchAlbum[indexPath.row].albumName {
+            height = height + albumName.heightForWidth(width: withWidth, font: UIFont(name: "HelveticaNeue", size: 13)!)
+        }
+        if let albumArtist =  listOfSearchAlbum[indexPath.row].artistName {
+            height = height + albumArtist.heightForWidth(width: withWidth, font: UIFont(name: "HelveticaNeue-Medium", size: 13)!)
+        }
+        
+        return height
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 15.0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 15.0
-    }
- 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-
-        return UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
-    }
-
 }
 
 
