@@ -58,7 +58,6 @@ class AlubmDetailsViewController: UIViewController, AlubmDetailsViewProtocol {
         tblvTrackList.tableFooterView = UIView(frame: .zero)
         tblvTrackList.rowHeight = UITableView.automaticDimension
         tblvTrackList.estimatedRowHeight = 40
-        tblvTrackList.contentInset = UIEdgeInsets(top: 5, left: 0, bottom: 20, right: 0)
         tblvTrackList.delaysContentTouches = false
         
         self.title = self.presenter?.getAlbumName()

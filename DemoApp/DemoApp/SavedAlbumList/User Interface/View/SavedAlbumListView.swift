@@ -118,7 +118,7 @@ extension SavedAlbumListViewController: AlbumCellLayoutDelegate {
         }
 
         if let albumArtist =  listOfAlbumsData[indexPath.row].artistName {
-            height = height + albumArtist.heightForWidth(width: withWidth, font: UIFont(name: "HelveticaNeue-Medium", size: 13)!)
+            height = height + "By - \(albumArtist)".heightForWidth(width: withWidth, font: UIFont(name: "HelveticaNeue-Medium", size: 13)!)
         }
         
         return height

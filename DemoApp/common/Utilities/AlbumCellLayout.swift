@@ -50,6 +50,8 @@ class AlbumCellLayout: UICollectionViewLayout {
             return
         }
         
+        contentHeight = 0
+
         cache.removeAll()
 
         guard cache.isEmpty == true else {

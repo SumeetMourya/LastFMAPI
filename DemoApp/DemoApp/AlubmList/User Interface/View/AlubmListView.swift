@@ -201,7 +201,7 @@ extension AlubmListViewController: AlbumCellLayoutDelegate {
             height = height + albumName.heightForWidth(width: withWidth, font: UIFont(name: "HelveticaNeue", size: 13)!)
         }
         if let albumArtist =  listOfSearchAlbum[indexPath.row].artistName {
-            height = height + albumArtist.heightForWidth(width: withWidth, font: UIFont(name: "HelveticaNeue-Medium", size: 13)!)
+            height = height + "By - \(albumArtist)".heightForWidth(width: withWidth, font: UIFont(name: "HelveticaNeue-Medium", size: 13)!)
         }
         
         return height
