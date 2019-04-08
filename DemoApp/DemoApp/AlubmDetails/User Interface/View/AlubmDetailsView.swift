@@ -85,6 +85,7 @@ class AlubmDetailsViewController: UIViewController, AlubmDetailsViewProtocol {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        self.layoutTrackListHeight.constant = self.tblvTrackList.contentSize.height
     }
     
     func updateToggleButton() {
