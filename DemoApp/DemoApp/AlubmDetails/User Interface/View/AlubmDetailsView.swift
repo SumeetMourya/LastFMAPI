@@ -86,6 +86,10 @@ class AlubmDetailsViewController: UIViewController, AlubmDetailsViewProtocol {
         super.viewDidAppear(animated)
         
         self.layoutTrackListHeight.constant = self.tblvTrackList.contentSize.height
+        UIView.animate(withDuration: 0.5, animations: {
+            self.view.layoutIfNeeded()
+        }) { (finish) in
+        }
     }
     
     func updateToggleButton() {
@@ -164,6 +168,11 @@ class AlubmDetailsViewController: UIViewController, AlubmDetailsViewProtocol {
             self.tracksIsEmpty.isHidden = (albumInforData.tracks.count > 0) ? true : false
             self.layoutTrackListHeight.constant = self.tblvTrackList.contentSize.height
             
+            UIView.animate(withDuration: 0.5, delay: 0.2, options: UIView.AnimationOptions.curveEaseInOut, animations: {
+                self.view.layoutIfNeeded()
+            }) { (finish) in
+            }
+
             self.updateToggleButton()
         }
     }
